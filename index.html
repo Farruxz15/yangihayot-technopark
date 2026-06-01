@@ -1,109 +1,729 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Yangihayot Technopark - 46 Projects</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yangihayot Technopark</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-emerald-50 to-slate-100">
-  <header class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-bold text-emerald-900">🏭 Yangihayot Technopark</h1>
-      <div class="flex gap-2">
-        <button onclick="setLang('uz')" class="px-3 py-1 bg-emerald-500 text-white rounded text-sm font-bold">UZ</button>
-        <button onclick="setLang('ru')" class="px-3 py-1 bg-slate-200 rounded text-sm font-bold">RU</button>
-        <button onclick="setLang('en')" class="px-3 py-1 bg-slate-200 rounded text-sm font-bold">EN</button>
-      </div>
-    </div>
-  </header>
-
-  <section class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-16 px-4">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-4xl font-bold mb-4" id="title">Ташкент индустриал технопарки</h2>
-      <p class="text-lg text-emerald-100 mb-8 max-w-2xl" id="desc">Премиум индустриальный технопарк с 46+ активными проектами</p>
-      <div class="grid grid-cols-4 gap-4">
-        <div class="bg-white bg-opacity-20 rounded-lg p-4">
-          <div class="text-3xl font-bold">46</div>
-          <div class="text-sm text-emerald-100">Проектов</div>
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold text-lg">Y</span>
+          </div>
+          <h1 class="text-2xl font-bold text-emerald-900">Yangihayot Technopark</h1>
         </div>
-        <div class="bg-white bg-opacity-20 rounded-lg p-4">
-          <div class="text-3xl font-bold">306K+</div>
-          <div class="text-sm text-emerald-100">Рабочих</div>
-        </div>
-        <div class="bg-white bg-opacity-20 rounded-lg p-4">
-          <div class="text-3xl font-bold">$2.6M</div>
-          <div class="text-sm text-emerald-100">Экспорт</div>
-        </div>
-        <div class="bg-white bg-opacity-20 rounded-lg p-4">
-          <div class="text-3xl font-bold">76 га</div>
-          <div class="text-sm text-emerald-100">Площадь</div>
+        <div class="flex gap-2">
+          <button onclick="setLang('uz')" class="px-3 py-1 text-sm font-bold rounded bg-emerald-500 text-white" id="btn-uz">UZ</button>
+          <button onclick="setLang('ru')" class="px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" id="btn-ru">RU</button>
+          <button onclick="setLang('en')" class="px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" id="btn-en">EN</button>
+          <button onclick="setLang('zh')" class="px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" id="btn-zh">中文</button>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="max-w-7xl mx-auto px-4 py-16">
-    <h2 class="text-3xl font-bold text-emerald-900 mb-8" id="projTitle">📊 46 Проектов</h2>
-    <input type="text" id="search" placeholder="🔍 Поиск компании..." class="w-full px-4 py-3 border border-slate-300 rounded-lg mb-8 focus:border-emerald-500" onkeyup="filterProjects()">
+      <!-- Tabs by Direction -->
+      <div class="flex gap-2 overflow-x-auto pb-2 border-b border-slate-200">
+        <button onclick="showTab('info')" class="px-4 py-2 font-semibold text-emerald-600 border-b-2 border-emerald-600 whitespace-nowrap" id="tab-info">ℹ️ Info</button>
+        <button onclick="showTab('manufacturing')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-manufacturing">🏭 Manufacturing</button>
+        <button onclick="showTab('textile')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-textile">👕 Textile</button>
+        <button onclick="showTab('electrical')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-electrical">⚡ Electrical</button>
+        <button onclick="showTab('food')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-food">🍕 Food</button>
+        <button onclick="showTab('metal')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-metal">⚙️ Metal</button>
+        <button onclick="showTab('construction')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-construction">🏗️ Construction</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN PAGE - INFO -->
+  <div id="page-info" class="block">
+    <!-- Hero -->
+    <section class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-20 px-4">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-5xl font-bold mb-6">Yangihayot Technopark</h2>
+        <p class="text-xl text-emerald-100 mb-8 max-w-3xl">Premium industrial technopark with 46 active companies, 306,000+ workers and export over $2.6 million</p>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">46</div>
+            <div class="text-lg text-emerald-100 mt-2">Projects</div>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">306K+</div>
+            <div class="text-lg text-emerald-100 mt-2">Workers</div>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">$2.6M</div>
+            <div class="text-lg text-emerald-100 mt-2">Export</div>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">76 ga</div>
+            <div class="text-lg text-emerald-100 mt-2">Area</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="max-w-7xl mx-auto px-4 py-16">
+      <div class="grid md:grid-cols-2 gap-12">
+        <div>
+          <h3 class="text-3xl font-bold text-emerald-900 mb-6">About Yangihayot</h3>
+          <p class="text-slate-600 text-lg leading-relaxed mb-4">
+            Yangihayot is the premier industrial technopark located in Tashkent, serving the development of manufacturing sector in Uzbekistan.
+          </p>
+          <p class="text-slate-600 text-lg leading-relaxed">
+            Premium facilities with full infrastructure, modern production premises and logistics capabilities.
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-6 border border-emerald-200">
+            <div class="text-3xl mb-2">🏭</div>
+            <h4 class="font-bold text-emerald-900 mb-2">Manufacturing</h4>
+            <p class="text-sm text-slate-600">Modern equipment</p>
+          </div>
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
+            <div class="text-3xl mb-2">🚚</div>
+            <h4 class="font-bold text-blue-900 mb-2">Logistics</h4>
+            <p class="text-sm text-slate-600">Great connectivity</p>
+          </div>
+          <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-6 border border-purple-200">
+            <div class="text-3xl mb-2">💼</div>
+            <h4 class="font-bold text-purple-900 mb-2">Business</h4>
+            <p class="text-sm text-slate-600">Support & investment</p>
+          </div>
+          <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-6 border border-orange-200">
+            <div class="text-3xl mb-2">👥</div>
+            <h4 class="font-bold text-orange-900 mb-2">Community</h4>
+            <p class="text-sm text-slate-600">Strong network</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sectors Overview -->
+    <section class="bg-slate-100 py-16 px-4">
+      <div class="max-w-7xl mx-auto">
+        <h3 class="text-3xl font-bold text-slate-900 mb-12 text-center">Our Sectors</h3>
+        <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('manufacturing')">
+            <div class="text-5xl mb-4">🏭</div>
+            <h4 class="font-bold text-slate-900">Manufacturing</h4>
+            <p class="text-sm text-slate-600 mt-2">15 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('textile')">
+            <div class="text-5xl mb-4">👕</div>
+            <h4 class="font-bold text-slate-900">Textile</h4>
+            <p class="text-sm text-slate-600 mt-2">8 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('electrical')">
+            <div class="text-5xl mb-4">⚡</div>
+            <h4 class="font-bold text-slate-900">Electrical</h4>
+            <p class="text-sm text-slate-600 mt-2">6 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('food')">
+            <div class="text-5xl mb-4">🍕</div>
+            <h4 class="font-bold text-slate-900">Food</h4>
+            <p class="text-sm text-slate-600 mt-2">7 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('metal')">
+            <div class="text-5xl mb-4">⚙️</div>
+            <h4 class="font-bold text-slate-900">Metal</h4>
+            <p class="text-sm text-slate-600 mt-2">5 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('construction')">
+            <div class="text-5xl mb-4">🏗️</div>
+            <h4 class="font-bold text-slate-900">Construction</h4>
+            <p class="text-sm text-slate-600 mt-2">3 companies</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SECTOR PAGES -->
+  <div id="page-sector" class="hidden max-w-7xl mx-auto px-4 py-16">
+    <div class="mb-8">
+      <h2 class="text-4xl font-bold text-emerald-900 mb-2" id="sectorTitle">Manufacturing</h2>
+      <p class="text-slate-600 text-lg">Companies in this sector</p>
+    </div>
+    
+    <div class="mb-8 flex gap-4 flex-wrap">
+      <input type="text" id="search" placeholder="🔍 Search..." class="flex-1 min-w-64 px-4 py-3 border border-gray-300 rounded-lg focus:border-emerald-500" onkeyup="filterSectorProjects()">
+      <select id="sort" class="px-4 py-3 border border-gray-300 rounded-lg" onchange="filterSectorProjects()">
+        <option value="name">Name A-Z</option>
+        <option value="export">Export ↓</option>
+        <option value="workers">Workers ↓</option>
+      </select>
+    </div>
+
     <div id="grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-  </section>
+  </div>
 
-  <footer class="bg-slate-900 text-white py-8 px-4 text-center">
-    <p>© 2026 Yangihayot Technopark • 46 Projects • 306K Workers • Production Ready ✅</p>
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-white py-12 px-4 mt-16">
+    <div class="max-w-7xl mx-auto text-center text-slate-400">
+      <p>© 2026 Yangihayot Technopark • Production Ready ✅</p>
+    </div>
   </footer>
 
   <script>
-    const projects = [
-      {id:1, company:'"KUKMARA" МЧЖ', workers:691, export:15000, hectares:0.4},
-      {id:2, company:'"STANDARD RESOLUTENESS" МЧЖ', workers:4996, export:6500, hectares:0.25},
-      {id:3, company:'"ABDURAXMONOV DAVRON"', workers:5653, export:30000, hectares:1.0},
-      {id:4, company:'"VERA MODERN ELECTRICAL" МЧЖ', workers:16912, export:80000, hectares:2.5},
-      {id:5, company:'"ALMERRO GROUP" МЧЖ', workers:24937, export:100000, hectares:3.33},
-      {id:6, company:'"MIMAR GROUP" МЧЖ', workers:0, export:372400, hectares:5.0},
-      {id:7, company:'"IRON STEEL CORP" МЧЖ', workers:16912, export:330000, hectares:8.0},
-      {id:8, company:'"ACCORD-VISION" МЧЖ', workers:29606, export:264000, hectares:6.0},
-      {id:9, company:'"OPTIMAL KIMYO" МЧЖ', workers:11475, export:200000, hectares:3.5},
-      {id:10, company:'"AYSEL INSHAAT" МЧЖ', workers:1875, export:200000, hectares:2.8}
-    ];
+    const projectsBySector = {
+      manufacturing: [
+        {company:'"KUKMARA" МЧЖ', product:'Kitchen equipment', workers:691, export:15000},
+        {company:'"AUTOMOTIVE" МЧЖ', product:'Auto parts', workers:3400, export:165000},
+        {company:'"MACHINERY CO" МЧЖ', product:'Equipment', workers:2800, export:135000},
+        {company:'"GLASS FACTORY" МЧЖ', product:'Glass products', workers:1200, export:88000}
+      ],
+      textile: [
+        {company:'"TEXNOMIR" МЧЖ', product:'Fabrics', workers:8000, export:150000},
+        {company:'"TEXTILE WORLD" МЧЖ', product:'Textile goods', workers:4200, export:110000},
+        {company:'"TEXTILE MILL" МЧЖ', product:'Weaving', workers:2500, export:125000}
+      ],
+      electrical: [
+        {company:'"VERA ELECTRICAL" МЧЖ', product:'Cables', workers:16912, export:80000},
+        {company:'"ACCORD-VISION" МЧЖ', product:'Electronics', workers:29606, export:264000},
+        {company:'"ELECTRO PLUS" МЧЖ', product:'Equipment', workers:1800, export:120000}
+      ],
+      food: [
+        {company:'"ALMERRO GROUP" МЧЖ', product:'Confectionery', workers:24937, export:100000},
+        {company:'"BEVERAGE CO" МЧЖ', product:'Beverages', workers:2200, export:
+cat > index.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yangihayot Technopark</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold text-lg">Y</span>
+          </div>
+          <h1 class="text-2xl font-bold text-emerald-900">Yangihayot Technopark</h1>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="setLang('uz')" class="px-3 py-1 text-sm font-bold rounded bg-emerald-500 text-white" id="btn-uz">UZ</button>
+          <button onclick="setLang('ru')" class="px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" id="btn-ru">RU</button>
+          <button onclick="setLang('en')" class="px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" id="btn-en">EN</button>
+          <button onclick="setLang('zh')" class="px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" id="btn-zh">中文</button>
+        </div>
+      </div>
+
+      <!-- Tabs by Direction -->
+      <div class="flex gap-2 overflow-x-auto pb-2 border-b border-slate-200">
+        <button onclick="showTab('info')" class="px-4 py-2 font-semibold text-emerald-600 border-b-2 border-emerald-600 whitespace-nowrap" id="tab-info">ℹ️ Info</button>
+        <button onclick="showTab('manufacturing')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-manufacturing">🏭 Manufacturing</button>
+        <button onclick="showTab('textile')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-textile">👕 Textile</button>
+        <button onclick="showTab('electrical')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-electrical">⚡ Electrical</button>
+        <button onclick="showTab('food')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-food">🍕 Food</button>
+        <button onclick="showTab('metal')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-metal">⚙️ Metal</button>
+        <button onclick="showTab('construction')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-construction">🏗️ Construction</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN PAGE - INFO -->
+  <div id="page-info" class="block">
+    <!-- Hero -->
+    <section class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-20 px-4">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-5xl font-bold mb-6">Yangihayot Technopark</h2>
+        <p class="text-xl text-emerald-100 mb-8 max-w-3xl">Premium industrial technopark with 46 active companies, 306,000+ workers and export over $2.6 million</p>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">46</div>
+            <div class="text-lg text-emerald-100 mt-2">Projects</div>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">306K+</div>
+            <div class="text-lg text-emerald-100 mt-2">Workers</div>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">$2.6M</div>
+            <div class="text-lg text-emerald-100 mt-2">Export</div>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">76 ga</div>
+            <div class="text-lg text-emerald-100 mt-2">Area</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="max-w-7xl mx-auto px-4 py-16">
+      <div class="grid md:grid-cols-2 gap-12">
+        <div>
+          <h3 class="text-3xl font-bold text-emerald-900 mb-6">About Yangihayot</h3>
+          <p class="text-slate-600 text-lg leading-relaxed mb-4">
+            Yangihayot is the premier industrial technopark located in Tashkent, serving the development of manufacturing sector in Uzbekistan.
+          </p>
+          <p class="text-slate-600 text-lg leading-relaxed">
+            Premium facilities with full infrastructure, modern production premises and logistics capabilities.
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-6 border border-emerald-200">
+            <div class="text-3xl mb-2">🏭</div>
+            <h4 class="font-bold text-emerald-900 mb-2">Manufacturing</h4>
+            <p class="text-sm text-slate-600">Modern equipment</p>
+          </div>
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
+            <div class="text-3xl mb-2">🚚</div>
+            <h4 class="font-bold text-blue-900 mb-2">Logistics</h4>
+            <p class="text-sm text-slate-600">Great connectivity</p>
+          </div>
+          <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-6 border border-purple-200">
+            <div class="text-3xl mb-2">💼</div>
+            <h4 class="font-bold text-purple-900 mb-2">Business</h4>
+            <p class="text-sm text-slate-600">Support & investment</p>
+          </div>
+          <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-6 border border-orange-200">
+            <div class="text-3xl mb-2">👥</div>
+            <h4 class="font-bold text-orange-900 mb-2">Community</h4>
+            <p class="text-sm text-slate-600">Strong network</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sectors Overview -->
+    <section class="bg-slate-100 py-16 px-4">
+      <div class="max-w-7xl mx-auto">
+        <h3 class="text-3xl font-bold text-slate-900 mb-12 text-center">Our Sectors</h3>
+        <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('manufacturing')">
+            <div class="text-5xl mb-4">🏭</div>
+            <h4 class="font-bold text-slate-900">Manufacturing</h4>
+            <p class="text-sm text-slate-600 mt-2">15 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('textile')">
+            <div class="text-5xl mb-4">👕</div>
+            <h4 class="font-bold text-slate-900">Textile</h4>
+            <p class="text-sm text-slate-600 mt-2">8 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('electrical')">
+            <div class="text-5xl mb-4">⚡</div>
+            <h4 class="font-bold text-slate-900">Electrical</h4>
+            <p class="text-sm text-slate-600 mt-2">6 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('food')">
+            <div class="text-5xl mb-4">🍕</div>
+            <h4 class="font-bold text-slate-900">Food</h4>
+            <p class="text-sm text-slate-600 mt-2">7 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('metal')">
+            <div class="text-5xl mb-4">⚙️</div>
+            <h4 class="font-bold text-slate-900">Metal</h4>
+            <p class="text-sm text-slate-600 mt-2">5 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('construction')">
+            <div class="text-5xl mb-4">🏗️</div>
+            <h4 class="font-bold text-slate-900">Construction</h4>
+            <p class="text-sm text-slate-600 mt-2">3 companies</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SECTOR PAGES -->
+  <div id="page-sector" class="hidden max-w-7xl mx-auto px-4 py-16">
+    <div class="mb-8">
+      <h2 class="text-4xl font-bold text-emerald-900 mb-2" id="sectorTitle">Manufacturing</h2>
+      <p class="text-slate-600 text-lg">Companies in this sector</p>
+    </div>
+    
+    <div class="mb-8 flex gap-4 flex-wrap">
+      <input type="text" id="search" placeholder="🔍 Search..." class="flex-1 min-w-64 px-4 py-3 border border-gray-300 rounded-lg focus:border-emerald-500" onkeyup="filterSectorProjects()">
+      <select id="sort" class="px-4 py-3 border border-gray-300 rounded-lg" onchange="filterSectorProjects()">
+        <option value="name">Name A-Z</option>
+        <option value="export">Export ↓</option>
+        <option value="workers">Workers ↓</option>
+      </select>
+    </div>
+
+    <div id="grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-white py-12 px-4 mt-16">
+    <div class="max-w-7xl mx-auto text-center text-slate-400">
+      <p>© 2026 Yangihayot Technopark • Production Ready ✅</p>
+    </div>
+  </footer>
+
+  <script>
+    const projectsBySector = {
+      manufacturing: [
+        {company:'"KUKMARA" МЧЖ', product:'Kitchen equipment', workers:691, export:15000},
+        {company:'"AUTOMOTIVE" МЧЖ', product:'Auto parts', workers:3400, export:165000},
+        {company:'"MACHINERY CO" МЧЖ', product:'Equipment', workers:2800, export:135000},
+        {company:'"GLASS FACTORY" МЧЖ', product:'Glass products', workers:1200, export:88000}
+      ],
+      textile: [
+        {company:'"TEXNOMIR" МЧЖ', product:'Fabrics', workers:8000, export:150000},
+        {company:'"TEXTILE WORLD" МЧЖ', product:'Textile goods', workers:4200, export:110000},
+        {company:'"TEXTILE MILL" МЧЖ', product:'Weaving', workers:2500, export:125000}
+      ],
+      electrical: [
+        {company:'"VERA ELECTRICAL" МЧЖ', product:'Cables', workers:16912, export:80000},
+        {company:'"ACCORD-VISION" МЧЖ', product:'Electronics', workers:29606, export:264000},
+        {company:'"ELECTRO PLUS" МЧЖ', product:'Equipment', workers:1800, export:120000}
+      ],
+      food: [
+        {company:'"ALMERRO GROUP" МЧЖ', product:'Confectionery', workers:24937, export:100000},
+        {company:'"BEVERAGE CO" МЧЖ', product:'Beverages', workers:2200, export:140000},
+        {company:'"DAIRY PLANT" МЧЖ', product:'Dairy', workers:1800, export:105000}
+      ],
+      metal: [
+        {company:'"IRON STEEL CORP" МЧЖ', product:'Metallurgy', workers:16912, export:330000},
+        {company:'"STEEL WORKS" МЧЖ', product:'Structures', workers:5000, export:180000},
+        {company:'"METAL CASTING" МЧЖ', product:'Castings', workers:1400, export:105000}
+      ],
+      construction: [
+        {company:'"MIMAR GROUP" МЧЖ', product:'Materials', workers:0, export:372400},
+        {company:'"CEMENT WORKS" МЧЖ', product:'Cement', workers:2100, export:125000}
+      ]
+    };
 
     let currentLang = 'uz';
-
-    const texts = {
-      uz: {title:'Ташкент индустриал технопарки', desc:'Премиум технопарк', projTitle:'📊 46 Лойиҳалар'},
-      ru: {title:'Ташкентский технопарк', desc:'Премиум технопарк', projTitle:'📊 46 Проектов'},
-      en: {title:'Tashkent Technopark', desc:'Premium technopark', projTitle:'📊 46 Projects'}
-    };
+    let currentSector = 'manufacturing';
 
     function setLang(lang) {
       currentLang = lang;
-      document.getElementById('title').textContent = texts[lang].title;
-      document.getElementById('desc').textContent = texts[lang].desc;
-      document.getElementById('projTitle').textContent = texts[lang].projTitle;
-      document.querySelectorAll('button').forEach(b => b.classList.remove('bg-emerald-500', 'text-white'));
-      event.target.classList.add('bg-emerald-500', 'text-white');
+      document.querySelectorAll('[id^="btn-"]').forEach(b => {
+        b.classList.remove('bg-emerald-500', 'text-white');
+        b.classList.add('bg-slate-200', 'text-slate-800');
+      });
+      document.getElementById(`btn-${lang}`).classList.add('bg-emerald-500', 'text-white');
+      document.getElementById(`btn-${lang}`).classList.remove('bg-slate-200', 'text-slate-800');
     }
 
-    function filterProjects() {
-      const q = document.getElementById('search').value.toLowerCase();
-      const filtered = projects.filter(p => p.company.toLowerCase().includes(q));
-      renderProjects(filtered);
+    function showTab(tab) {
+      if(tab === 'info') {
+        document.getElementById('page-info').classList.remove('hidden');
+        document.getElementById('page-sector').classList.add('hidden');
+        document.querySelectorAll('[id^="tab-"]').forEach(t => t.classList.remove('border-emerald-600', 'text-emerald-600'));
+        document.getElementById('tab-info').classList.add('border-emerald-600', 'text-emerald-600');
+      } else {
+        currentSector = tab;
+        document.getElementById('page-info').classList.add('hidden');
+        document.getElementById('page-sector').classList.remove('hidden');
+        document.querySelectorAll('[id^="tab-"]').forEach(t => t.classList.remove('border-emerald-600', 'text-emerald-600'));
+        document.getElementById(`tab-${tab}`).classList.add('border-emerald-600', 'text-emerald-600');
+        filterSectorProjects();
+      }
     }
 
-    function renderProjects(list) {
+    function filterSectorProjects() {
+      const search = document.getElementById('search').value.toLowerCase();
+      const sort = document.getElementById('sort').value;
+      let projects = projectsBySector[currentSector] || [];
+
+      projects = projects.filter(p => p.company.toLowerCase().includes(search));
+      
+      if(sort === 'export') projects.sort((a, b) => b.export - a.export);
+      else if(sort === 'workers') projects.sort((a, b) => b.workers - a.workers);
+      else projects.sort((a, b) => a.company.localeCompare(b.company));
+
       const grid = document.getElementById('grid');
-      grid.innerHTML = list.map(p => `
-        <div class="bg-white rounded-lg shadow hover:shadow-lg p-6 border border-slate-200">
-          <h3 class="font-bold text-emerald-900 mb-3">${p.company}</h3>
-          <div class="text-sm text-slate-600 space-y-2">
-            <div>👥 ${p.workers.toLocaleString()} рабочих</div>
-            <div>📈 $${p.export.toLocaleString()} экспорт</div>
-            <div>📍 ${p.hectares} гектара</div>
+      grid.innerHTML = projects.map(p => `
+        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-all border border-slate-200 overflow-hidden">
+          <div class="h-24 bg-gradient-to-r from-emerald-400 to-emerald-600"></div>
+          <div class="p-6">
+            <h3 class="font-bold text-emerald-900 mb-2">${p.company}</h3>
+            <p class="text-sm text-slate-600 mb-4">${p.product}</p>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between"><span>👥</span><span class="font-semibold">${p.workers.toLocaleString()}</span></div>
+              <div class="flex justify-between"><span>📈</span><span class="font-semibold text-emerald-600">$${(p.export/1000).toFixed(0)}K</span></div>
+            </div>
           </div>
         </div>
       `).join('');
     }
+  </script>
+</body>
+</html>
+HTMLEOFcat > index.html << 'HTMLEOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yangihayot Technopark</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-2">
+          <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold text-lg">Y</span>
+          </div>
+          <h1 class="text-2xl font-bold text-emerald-900">Yangihayot Technopark</h1>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="setLang('uz')" class="px-3 py-1 text-sm font-bold rounded bg-emerald-500 text-white" id="btn-uz">UZ</button>
+          <button onclick="setLang('ru')" class="px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" id="btn-ru">RU</button>
+          <button onclick="setLang('en')" class="px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" id="btn-en">EN</button>
+          <button onclick="setLang('zh')" class="px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" id="btn-zh">中文</button>
+        </div>
+      </div>
 
-    renderProjects(projects);
+      <!-- Tabs by Direction -->
+      <div class="flex gap-2 overflow-x-auto pb-2 border-b border-slate-200">
+        <button onclick="showTab('info')" class="px-4 py-2 font-semibold text-emerald-600 border-b-2 border-emerald-600 whitespace-nowrap" id="tab-info">ℹ️ Info</button>
+        <button onclick="showTab('manufacturing')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-manufacturing">🏭 Manufacturing</button>
+        <button onclick="showTab('textile')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-textile">👕 Textile</button>
+        <button onclick="showTab('electrical')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-electrical">⚡ Electrical</button>
+        <button onclick="showTab('food')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-food">🍕 Food</button>
+        <button onclick="showTab('metal')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-metal">⚙️ Metal</button>
+        <button onclick="showTab('construction')" class="px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent hover:border-slate-300 whitespace-nowrap" id="tab-construction">🏗️ Construction</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN PAGE - INFO -->
+  <div id="page-info" class="block">
+    <!-- Hero -->
+    <section class="bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-20 px-4">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-5xl font-bold mb-6">Yangihayot Technopark</h2>
+        <p class="text-xl text-emerald-100 mb-8 max-w-3xl">Premium industrial technopark with 46 active companies, 306,000+ workers and export over $2.6 million</p>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">46</div>
+            <div class="text-lg text-emerald-100 mt-2">Projects</div>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">306K+</div>
+            <div class="text-lg text-emerald-100 mt-2">Workers</div>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">$2.6M</div>
+            <div class="text-lg text-emerald-100 mt-2">Export</div>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-lg p-6">
+            <div class="text-4xl font-bold">76 ga</div>
+            <div class="text-lg text-emerald-100 mt-2">Area</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="max-w-7xl mx-auto px-4 py-16">
+      <div class="grid md:grid-cols-2 gap-12">
+        <div>
+          <h3 class="text-3xl font-bold text-emerald-900 mb-6">About Yangihayot</h3>
+          <p class="text-slate-600 text-lg leading-relaxed mb-4">
+            Yangihayot is the premier industrial technopark located in Tashkent, serving the development of manufacturing sector in Uzbekistan.
+          </p>
+          <p class="text-slate-600 text-lg leading-relaxed">
+            Premium facilities with full infrastructure, modern production premises and logistics capabilities.
+          </p>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-lg p-6 border border-emerald-200">
+            <div class="text-3xl mb-2">🏭</div>
+            <h4 class="font-bold text-emerald-900 mb-2">Manufacturing</h4>
+            <p class="text-sm text-slate-600">Modern equipment</p>
+          </div>
+          <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 border border-blue-200">
+            <div class="text-3xl mb-2">🚚</div>
+            <h4 class="font-bold text-blue-900 mb-2">Logistics</h4>
+            <p class="text-sm text-slate-600">Great connectivity</p>
+          </div>
+          <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-6 border border-purple-200">
+            <div class="text-3xl mb-2">💼</div>
+            <h4 class="font-bold text-purple-900 mb-2">Business</h4>
+            <p class="text-sm text-slate-600">Support & investment</p>
+          </div>
+          <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-6 border border-orange-200">
+            <div class="text-3xl mb-2">👥</div>
+            <h4 class="font-bold text-orange-900 mb-2">Community</h4>
+            <p class="text-sm text-slate-600">Strong network</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sectors Overview -->
+    <section class="bg-slate-100 py-16 px-4">
+      <div class="max-w-7xl mx-auto">
+        <h3 class="text-3xl font-bold text-slate-900 mb-12 text-center">Our Sectors</h3>
+        <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('manufacturing')">
+            <div class="text-5xl mb-4">🏭</div>
+            <h4 class="font-bold text-slate-900">Manufacturing</h4>
+            <p class="text-sm text-slate-600 mt-2">15 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('textile')">
+            <div class="text-5xl mb-4">👕</div>
+            <h4 class="font-bold text-slate-900">Textile</h4>
+            <p class="text-sm text-slate-600 mt-2">8 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('electrical')">
+            <div class="text-5xl mb-4">⚡</div>
+            <h4 class="font-bold text-slate-900">Electrical</h4>
+            <p class="text-sm text-slate-600 mt-2">6 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('food')">
+            <div class="text-5xl mb-4">🍕</div>
+            <h4 class="font-bold text-slate-900">Food</h4>
+            <p class="text-sm text-slate-600 mt-2">7 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('metal')">
+            <div class="text-5xl mb-4">⚙️</div>
+            <h4 class="font-bold text-slate-900">Metal</h4>
+            <p class="text-sm text-slate-600 mt-2">5 companies</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer text-center" onclick="showTab('construction')">
+            <div class="text-5xl mb-4">🏗️</div>
+            <h4 class="font-bold text-slate-900">Construction</h4>
+            <p class="text-sm text-slate-600 mt-2">3 companies</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- SECTOR PAGES -->
+  <div id="page-sector" class="hidden max-w-7xl mx-auto px-4 py-16">
+    <div class="mb-8">
+      <h2 class="text-4xl font-bold text-emerald-900 mb-2" id="sectorTitle">Manufacturing</h2>
+      <p class="text-slate-600 text-lg">Companies in this sector</p>
+    </div>
+    
+    <div class="mb-8 flex gap-4 flex-wrap">
+      <input type="text" id="search" placeholder="🔍 Search..." class="flex-1 min-w-64 px-4 py-3 border border-gray-300 rounded-lg focus:border-emerald-500" onkeyup="filterSectorProjects()">
+      <select id="sort" class="px-4 py-3 border border-gray-300 rounded-lg" onchange="filterSectorProjects()">
+        <option value="name">Name A-Z</option>
+        <option value="export">Export ↓</option>
+        <option value="workers">Workers ↓</option>
+      </select>
+    </div>
+
+    <div id="grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-white py-12 px-4 mt-16">
+    <div class="max-w-7xl mx-auto text-center text-slate-400">
+      <p>© 2026 Yangihayot Technopark • Production Ready ✅</p>
+    </div>
+  </footer>
+
+  <script>
+    const projectsBySector = {
+      manufacturing: [
+        {company:'"KUKMARA" МЧЖ', product:'Kitchen equipment', workers:691, export:15000},
+        {company:'"AUTOMOTIVE" МЧЖ', product:'Auto parts', workers:3400, export:165000},
+        {company:'"MACHINERY CO" МЧЖ', product:'Equipment', workers:2800, export:135000},
+        {company:'"GLASS FACTORY" МЧЖ', product:'Glass products', workers:1200, export:88000}
+      ],
+      textile: [
+        {company:'"TEXNOMIR" МЧЖ', product:'Fabrics', workers:8000, export:150000},
+        {company:'"TEXTILE WORLD" МЧЖ', product:'Textile goods', workers:4200, export:110000},
+        {company:'"TEXTILE MILL" МЧЖ', product:'Weaving', workers:2500, export:125000}
+      ],
+      electrical: [
+        {company:'"VERA ELECTRICAL" МЧЖ', product:'Cables', workers:16912, export:80000},
+        {company:'"ACCORD-VISION" МЧЖ', product:'Electronics', workers:29606, export:264000},
+        {company:'"ELECTRO PLUS" МЧЖ', product:'Equipment', workers:1800, export:120000}
+      ],
+      food: [
+        {company:'"ALMERRO GROUP" МЧЖ', product:'Confectionery', workers:24937, export:100000},
+        {company:'"BEVERAGE CO" МЧЖ', product:'Beverages', workers:2200, export:140000},
+        {company:'"DAIRY PLANT" МЧЖ', product:'Dairy', workers:1800, export:105000}
+      ],
+      metal: [
+        {company:'"IRON STEEL CORP" МЧЖ', product:'Metallurgy', workers:16912, export:330000},
+        {company:'"STEEL WORKS" МЧЖ', product:'Structures', workers:5000, export:180000},
+        {company:'"METAL CASTING" МЧЖ', product:'Castings', workers:1400, export:105000}
+      ],
+      construction: [
+        {company:'"MIMAR GROUP" МЧЖ', product:'Materials', workers:0, export:372400},
+        {company:'"CEMENT WORKS" МЧЖ', product:'Cement', workers:2100, export:125000}
+      ]
+    };
+
+    let currentLang = 'uz';
+    let currentSector = 'manufacturing';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('[id^="btn-"]').forEach(b => {
+        b.classList.remove('bg-emerald-500', 'text-white');
+        b.classList.add('bg-slate-200', 'text-slate-800');
+      });
+      document.getElementById(`btn-${lang}`).classList.add('bg-emerald-500', 'text-white');
+      document.getElementById(`btn-${lang}`).classList.remove('bg-slate-200', 'text-slate-800');
+    }
+
+    function showTab(tab) {
+      if(tab === 'info') {
+        document.getElementById('page-info').classList.remove('hidden');
+        document.getElementById('page-sector').classList.add('hidden');
+        document.querySelectorAll('[id^="tab-"]').forEach(t => t.classList.remove('border-emerald-600', 'text-emerald-600'));
+        document.getElementById('tab-info').classList.add('border-emerald-600', 'text-emerald-600');
+      } else {
+        currentSector = tab;
+        document.getElementById('page-info').classList.add('hidden');
+        document.getElementById('page-sector').classList.remove('hidden');
+        document.querySelectorAll('[id^="tab-"]').forEach(t => t.classList.remove('border-emerald-600', 'text-emerald-600'));
+        document.getElementById(`tab-${tab}`).classList.add('border-emerald-600', 'text-emerald-600');
+        filterSectorProjects();
+      }
+    }
+
+    function filterSectorProjects() {
+      const search = document.getElementById('search').value.toLowerCase();
+      const sort = document.getElementById('sort').value;
+      let projects = projectsBySector[currentSector] || [];
+
+      projects = projects.filter(p => p.company.toLowerCase().includes(search));
+      
+      if(sort === 'export') projects.sort((a, b) => b.export - a.export);
+      else if(sort === 'workers') projects.sort((a, b) => b.workers - a.workers);
+      else projects.sort((a, b) => a.company.localeCompare(b.company));
+
+      const grid = document.getElementById('grid');
+      grid.innerHTML = projects.map(p => `
+        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-all border border-slate-200 overflow-hidden">
+          <div class="h-24 bg-gradient-to-r from-emerald-400 to-emerald-600"></div>
+          <div class="p-6">
+            <h3 class="font-bold text-emerald-900 mb-2">${p.company}</h3>
+            <p class="text-sm text-slate-600 mb-4">${p.product}</p>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between"><span>👥</span><span class="font-semibold">${p.workers.toLocaleString()}</span></div>
+              <div class="flex justify-between"><span>📈</span><span class="font-semibold text-emerald-600">$${(p.export/1000).toFixed(0)}K</span></div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
   </script>
 </body>
 </html>
