@@ -363,7 +363,7 @@ function setLang(l){
   document.getElementById('langMenu').classList.remove('open');
   localStorage.setItem('lang',l);
   var dt=document.getElementById('dir_total');
-  if(dt){var ta_w=l==='ru'?' предприятий':l==='en':' companies':l==='zh':'家企业':' ta korxona';dt.innerHTML='Jami: <strong>46</strong>'+ta_w;}
+  if(dt){var ta_w=l==='ru'?' предприятий':l==='en'?' companies':l==='zh'?'家企业':' ta korxona';dt.innerHTML='Jami: <strong>46</strong>'+ta_w;}
   var hp=document.getElementById('page-home');
   if(hp && !hp.classList.contains('hidden')){
     var suf2=l==='uz'?' ming+':l==='ru'?' тысяч+':l==='zh'?' 千+':' thousand+';
