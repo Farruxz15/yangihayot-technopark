@@ -94,13 +94,29 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
     </div>
   </section>
 
-  <section class="py-16 px-4 bg-slate-50 dark:bg-slate-800">
-    <div class="max-w-3xl mx-auto text-center">
-      <div class="text-6xl text-emerald-400 leading-none mb-2">"</div>
-      <blockquote class="text-lg md:text-xl italic text-slate-700 dark:text-slate-200 leading-relaxed mb-4">Oʻzbekistonda sanoat texnoparklarini rivojlantirish — iqtisodiyotimizni modernizatsiya qilish va yangi ish oʻrinlari yaratishning asosiy yoʻnalishidir.</blockquote>
-      <cite class="text-emerald-600 dark:text-emerald-400 font-bold not-italic">— Shavkat Mirziyoyev</cite>
+  <section class="relative py-0 overflow-hidden bg-slate-900">
+  <div class="absolute inset-0">
+    <img src="./images/Prezident.JPG" alt="Prezident" class="w-full h-full object-cover object-top opacity-40">
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/70 to-slate-900/40"></div>
+  </div>
+  <div class="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <div class="text-7xl text-emerald-400 leading-none mb-3">&ldquo;</div>
+      <blockquote class="text-xl md:text-2xl italic text-white leading-relaxed mb-6 font-light">O&#699;zbekistonda sanoat texnoparklarini rivojlantirish &mdash; iqtisodiyotimizni modernizatsiya qilish va yangi ish o&#699;rinlari yaratishning asosiy yo&#700;nalishidir.</blockquote>
+      <cite class="text-emerald-400 font-bold not-italic text-lg">&mdash; Shavkat Mirziyoyev</cite>
+      <div class="mt-4 text-slate-400 text-sm">O&#699;zbekiston Respublikasi Prezidenti</div>
     </div>
-  </section>
+    <div class="hidden md:flex justify-end">
+      <div class="relative">
+        <div class="absolute -inset-1 bg-emerald-500/30 rounded-2xl blur-lg"></div>
+        <img src="./images/Prezident.JPG" class="relative rounded-2xl shadow-2xl w-80 h-60 object-cover object-top border-2 border-emerald-500/40">
+        <div class="absolute bottom-3 left-3 right-3 bg-black/60 backdrop-blur-sm rounded-xl p-2 text-center">
+          <p class="text-white text-xs font-semibold">Yangihayot Industrial Texnopark</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
   <section class="max-w-7xl mx-auto px-4 py-14">
     <h2 class="text-3xl font-bold text-center mb-10" data-i18n="transformation">Oʻzgarish</h2>
@@ -364,7 +380,7 @@ function showPage(p){
   if(pg){pg.classList.remove('hidden');pg.classList.add('fade');setTimeout(()=>pg.classList.remove('fade'),500)}
   document.querySelectorAll('.nav-link').forEach(b=>{b.classList.toggle('text-emerald-600',b.dataset.page===p);b.classList.toggle('font-extrabold',b.dataset.page===p)});
   window.scrollTo({top:0,behavior:'smooth'});
-  if(p==='home'){setTimeout(()=>{animateCount('cnt1',46);animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'$','M');animateCount('cnt4',76,'',' ga')},400)}
+  if(p==='home'){setTimeout(()=>{animateCount('cnt1',46);animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'\u0024','M');animateCount('cnt4',76,'',' ga')},400)}
   if(p==='map')renderLotButtons();
   if(p==='directions')filterSector('all');
 }
@@ -486,7 +502,7 @@ function closeModal(){document.getElementById('modal').classList.add('hidden');d
 if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');
 setLang(localStorage.getItem('lang')||'uz');
 setTimeout(typeEffect,800);
-setTimeout(()=>{animateCount('cnt1',46);animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'$','M');animateCount('cnt4',76,'',' ga')},1000);
+setTimeout(()=>{animateCount('cnt1',46);animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'\u0024','M');animateCount('cnt4',76,'',' ga')},1000);
 document.addEventListener('click',e=>{
   if(!e.target.closest('[onclick*="toggleLang"]')&&!e.target.closest('#langMenu'))document.getElementById('langMenu').classList.remove('open');
   if(!e.target.closest('#searchBar'))document.getElementById('searchResults').classList.add('hidden');
