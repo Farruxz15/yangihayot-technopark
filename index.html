@@ -139,16 +139,16 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
 <div id="page-directions" class="page hidden">
   <section class="max-w-7xl mx-auto px-4 py-12">
     <h1 class="text-4xl font-bold mb-3" data-i18n="m_dir">Yoʻnalishlar</h1>
-    <p class="text-slate-500 mb-8">Jami: <strong>46</strong> ta korxona</p>
+    <p class="text-slate-500 mb-8" id="dir_total"></p>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('logistics')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Logistika.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm" data-i18n="d_cnt_log">11 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_log"><span class="text-slate-400 text-sm font-normal ml-2" id="cnt_d_log">11 <span data-i18n="s_ta">ta</span></span>Logistika</h3></div></div>
-      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('food')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Oziq_ovqat.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">10 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_food"><span class="text-slate-400 text-sm font-normal ml-2" id="cnt_d_food">10 <span data-i18n="s_ta">ta</span></span>Oziq-ovqat</h3></div></div>
-      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('manufacturing')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Ishlab_chiqarish.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">7 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_man"><span class="text-slate-400 text-sm font-normal ml-2" id="cnt_d_man">7 <span data-i18n="s_ta">ta</span></span>Ishlab chiqarish</h3></div></div>
-      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('construction')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Qurilish.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">11 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_con"><span class="text-slate-400 text-sm font-normal ml-2" id="cnt_d_con">11 <span data-i18n="s_ta">ta</span></span>Qurilish</h3></div></div>
-      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('textile')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Tekstil.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">4 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_tex"><span class="text-slate-400 text-sm font-normal ml-2" id="cnt_d_tex">4 <span data-i18n="s_ta">ta</span></span>Toʻqimachilik</h3></div></div>
-      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('electrical')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Elektrotexnik.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">3 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_elec"><span class="text-slate-400 text-sm font-normal ml-2" id="cnt_d_elec">3 <span data-i18n="s_ta">ta</span></span>Elektrotexnika</h3></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('logistics')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Logistika.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm" data-i18n="d_cnt_log">11 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_log"> &bull; <span class="text-emerald-400 font-bold">11</span>Logistika</h3></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('food')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Oziq_ovqat.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">10 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_food"> &bull; <span class="text-emerald-400 font-bold">10</span>Oziq-ovqat</h3></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('manufacturing')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Ishlab_chiqarish.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">7 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_man"> &bull; <span class="text-emerald-400 font-bold">7</span>Ishlab chiqarish</h3></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('construction')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Qurilish.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">11 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_con"> &bull; <span class="text-emerald-400 font-bold">11</span>Qurilish</h3></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('textile')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Tekstil.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">4 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_tex"> &bull; <span class="text-emerald-400 font-bold">4</span>Toʻqimachilik</h3></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('electrical')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Elektrotexnik.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">3 ta</div></div><div class="p-4"><h3 class="font-bold" data-i18n="d_elec"> &bull; <span class="text-emerald-400 font-bold">3</span>Elektrotexnika</h3></div></div>
     </div>
-    <div id="companiesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    <div id="companiesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 hidden"></div>
   </section>
 </div>
 
@@ -362,6 +362,8 @@ function setLang(l){
   document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(i18n[l]&&i18n[l][k])el.textContent=i18n[l][k]});
   document.getElementById('langMenu').classList.remove('open');
   localStorage.setItem('lang',l);
+  var dt=document.getElementById('dir_total');
+  if(dt){var ta_w=l==='ru'?' предприятий':l==='en':' companies':l==='zh':'家企业':' ta korxona';dt.innerHTML='Jami: <strong>46</strong>'+ta_w;}
   var hp=document.getElementById('page-home');
   if(hp && !hp.classList.contains('hidden')){
     var suf2=l==='uz'?' ming+':l==='ru'?' тысяч+':l==='zh'?' 千+':' thousand+';
@@ -382,7 +384,7 @@ function showPage(p){
   window.scrollTo({top:0,behavior:'smooth'});
   if(p==='home'){setTimeout(()=>{animateCount('cnt1',46);animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'\u0024','M');animateCount('cnt4',76,'',' ga')},400)}
   if(p==='map')renderLotButtons();
-  if(p==='directions')filterSector('all');
+  if(p==='directions'){filterSector('all');var dt=document.getElementById('dir_total');if(dt){var l=currentLang;var ta_w=l==='ru'?' предприятий':l==='en'?' companies':l==='zh'?'家企业':' ta korxona';dt.innerHTML='Jami: <strong>46</strong>'+ta_w;}}
 }
 
 function stColor(st){return st==='w'?'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300':st==='p'?'bg-blue-100 text-blue-800':'bg-yellow-100 text-yellow-800'}
@@ -408,10 +410,12 @@ function companyCard(c){
 }
 
 function filterSector(s){
-  const list=s==='all'?companies:companies.filter(c=>c.sector===s);
-  document.getElementById('companiesGrid').innerHTML=list.map(c=>companyCard(c)).join('');
+  var grid=document.getElementById('companiesGrid');
+  if(s==='all'){grid.classList.add('hidden');grid.innerHTML='';return;}
+  var list=companies.filter(function(c){return c.sector===s;});
+  grid.innerHTML=list.map(function(c){return companyCard(c);}).join('');
+  grid.classList.remove('hidden');
 }
-
 function showCompany(lot){
   const c=companies.find(x=>x.lot===lot);
   if(!c)return;
