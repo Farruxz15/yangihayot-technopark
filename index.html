@@ -271,6 +271,30 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
       </div>
       <button onclick="closeCompanyModal()" class="text-slate-400 hover:text-slate-600 text-2xl font-bold">✕</button>
     </div>
+    <div id="cm_slider" class="mb-4 hidden">
+      <div class="relative rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-700" style="height:220px">
+        <img id="cm_img1" src="" class="absolute inset-0 w-full h-full object-cover cursor-zoom-in transition-opacity duration-300 opacity-100" onclick="openModal(this.src)">
+        <img id="cm_img2" src="" class="absolute inset-0 w-full h-full object-cover cursor-zoom-in transition-opacity duration-300 opacity-0" onclick="openModal(this.src)">
+        <button onclick="sliderPrev()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center text-xl z-10">&#8249;</button>
+        <button onclick="sliderNext()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center text-xl z-10">&#8250;</button>
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+          <div id="dot1" class="w-2 h-2 rounded-full bg-white opacity-100 cursor-pointer" onclick="sliderGo(0)"></div>
+          <div id="dot2" class="w-2 h-2 rounded-full bg-white opacity-40 cursor-pointer" onclick="sliderGo(1)"></div>
+        </div>
+      </div>
+    </div>
+    <div id="cm_slider" class="mb-4 hidden">
+      <div class="relative rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-700" style="height:220px">
+        <img id="cm_img1" src="" class="absolute inset-0 w-full h-full object-cover cursor-zoom-in transition-opacity duration-300 opacity-100" onclick="openModal(this.src)">
+        <img id="cm_img2" src="" class="absolute inset-0 w-full h-full object-cover cursor-zoom-in transition-opacity duration-300 opacity-0" onclick="openModal(this.src)">
+        <button onclick="sliderPrev()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center text-xl z-10">&#8249;</button>
+        <button onclick="sliderNext()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center text-xl z-10">&#8250;</button>
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+          <div id="dot1" class="w-2 h-2 rounded-full bg-white opacity-100 cursor-pointer" onclick="sliderGo(0)"></div>
+          <div id="dot2" class="w-2 h-2 rounded-full bg-white opacity-40 cursor-pointer" onclick="sliderGo(1)"></div>
+        </div>
+      </div>
+    </div>
     <div id="cm_body" class="space-y-3"></div>
   </div>
 </div>
@@ -435,10 +459,41 @@ function showCompany(lot){
     [t.f_tel, c.tel||'-']
   ];
   document.getElementById('cm_body').innerHTML=rows.map(([k,v])=>`<div class="flex gap-2 text-sm"><span class="text-slate-400 w-32 flex-shrink-0">${k}:</span><span class="font-medium">${v}</span></div>`).join('');
-  document.getElementById('companyModal').classList.remove('hidden');
+  // Slider rasmlar
+var lotKey = lot.replace('/','_').replace(' ','_');
+var img1 = './images/companies/lot_' + lotKey + '_1.png';
+var img2 = './images/companies/lot_' + lotKey + '_2.png';
+var slider = document.getElementById('cm_slider');
+var i1 = document.getElementById('cm_img1');
+var i2 = document.getElementById('cm_img2');
+i1.src = img1; i2.src = img2;
+window._sliderIdx = 0;
+i1.style.opacity='1'; i2.style.opacity='0';
+document.getElementById('dot1').style.opacity='1';
+document.getElementById('dot2').style.opacity='0.4';
+// Rasm borligini tekshir
+var testImg = new Image();
+testImg.onload = function(){ slider.classList.remove('hidden'); };
+testImg.onerror = function(){ slider.classList.add('hidden'); };
+testImg.src = img1;
+document.getElementById('companyModal').classList.remove('hidden');
   document.getElementById('companyModal').classList.add('flex');
 }
 
+function sliderNext(){
+  var i1=document.getElementById('cm_img1'),i2=document.getElementById('cm_img2');
+  var d1=document.getElementById('dot1'),d2=document.getElementById('dot2');
+  if(window._sliderIdx===0){i1.style.opacity='0';i2.style.opacity='1';d1.style.opacity='0.4';d2.style.opacity='1';window._sliderIdx=1;}
+  else{i1.style.opacity='1';i2.style.opacity='0';d1.style.opacity='1';d2.style.opacity='0.4';window._sliderIdx=0;}
+}
+function sliderPrev(){ sliderNext(); }
+function sliderGo(idx){
+  var i1=document.getElementById('cm_img1'),i2=document.getElementById('cm_img2');
+  var d1=document.getElementById('dot1'),d2=document.getElementById('dot2');
+  if(idx===0){i1.style.opacity='1';i2.style.opacity='0';d1.style.opacity='1';d2.style.opacity='0.4';}
+  else{i1.style.opacity='0';i2.style.opacity='1';d1.style.opacity='0.4';d2.style.opacity='1';}
+  window._sliderIdx=idx;
+}
 function closeCompanyModal(){
   document.getElementById('companyModal').classList.add('hidden');
   document.getElementById('companyModal').classList.remove('flex');
