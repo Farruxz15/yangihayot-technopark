@@ -365,7 +365,7 @@ function setLang(l){
   var hp=document.getElementById('page-home');
   if(hp && !hp.classList.contains('hidden')){
     var suf2=l==='uz'?' ming+':l==='ru'?' тысяч+':l==='zh'?' 千+':' thousand+';
-    var suf4=l==='uz':' ga':l==='ru':' га':l==='zh':' 公顿':' ha';
+    var suf4=l==='uz'?' ga':l==='ru'?' га':l==='zh'?' 公顿':' ha';
     setTimeout(function(){animateCount('cnt1',46);animateCount('cnt2',3,'',suf2);animateCount('cnt3',2.6,'$','M');animateCount('cnt4',76,'',suf4);},100);
   }
 }
