@@ -364,7 +364,7 @@ function showPage(p){
   if(pg){pg.classList.remove('hidden');pg.classList.add('fade');setTimeout(()=>pg.classList.remove('fade'),500)}
   document.querySelectorAll('.nav-link').forEach(b=>{b.classList.toggle('text-emerald-600',b.dataset.page===p);b.classList.toggle('font-extrabold',b.dataset.page===p)});
   window.scrollTo({top:0,behavior:'smooth'});
-  if(p==='home'){setTimeout(()=>{animateCount('cnt1',46);animateCount('cnt2',3,'','K+');animateCount('cnt3',2.6,'$','M');animateCount('cnt4',76,'',' ga')},400)}
+  if(p==='home'){setTimeout(()=>{animateCount('cnt1',46);animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'$','M');animateCount('cnt4',76,'',' ga')},400)}
   if(p==='map')renderLotButtons();
   if(p==='directions')filterSector('all');
 }
@@ -486,7 +486,7 @@ function closeModal(){document.getElementById('modal').classList.add('hidden');d
 if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');
 setLang(localStorage.getItem('lang')||'uz');
 setTimeout(typeEffect,800);
-setTimeout(()=>{animateCount('cnt1',46);animateCount('cnt2',3,'','K+');animateCount('cnt3',2.6,'$','M');animateCount('cnt4',76,'',' ga')},1000);
+setTimeout(()=>{animateCount('cnt1',46);animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'$','M');animateCount('cnt4',76,'',' ga')},1000);
 document.addEventListener('click',e=>{
   if(!e.target.closest('[onclick*="toggleLang"]')&&!e.target.closest('#langMenu'))document.getElementById('langMenu').classList.remove('open');
   if(!e.target.closest('#searchBar'))document.getElementById('searchResults').classList.add('hidden');
