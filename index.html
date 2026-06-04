@@ -1,182 +1,579 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yangihayot Technopark</title>
+<title>Yangihayot Texnopark</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<style>.modal{display:none}.modal.active{display:flex}</style>
+<script>tailwind.config={darkMode:'class'}</script>
+<style>
+body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,color .3s}
+.fade{animation:fadeIn .5s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.lang-menu{display:none}.lang-menu.open{display:block}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.card-hover:hover .card-info{opacity:1;transform:translateY(0)}
+.card-info{opacity:0;transform:translateY(10px);transition:all .3s}
+.lot-dot{cursor:pointer;transition:all .2s}
+.lot-dot:hover{transform:scale(1.3)}
+</style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200">
 
-<nav class="bg-white shadow sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 py-3">
-    <div class="flex justify-between items-center mb-4">
-      <div class="flex items-center gap-3">
-        <img src="./images/logo_dark.jpg" alt="Yangihayot" class="h-12 w-auto rounded">
-        <h1 class="text-2xl font-bold text-emerald-900">Yangihayot Technopark</h1>
-      </div>
-      <div class="flex gap-2">
-        <button onclick="setLang('uz')" class="lang-btn px-3 py-1 text-sm font-bold rounded bg-emerald-500 text-white" data-lang="uz">UZ</button>
-        <button onclick="setLang('ru')" class="lang-btn px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" data-lang="ru">RU</button>
-        <button onclick="setLang('en')" class="lang-btn px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" data-lang="en">EN</button>
-        <button onclick="setLang('zh')" class="lang-btn px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800" data-lang="zh">中文</button>
-      </div>
+<!-- NAV -->
+<nav class="bg-white dark:bg-slate-800 shadow-sm sticky top-0 z-50 border-b border-slate-200 dark:border-slate-700">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <a href="#" onclick="showPage('home');return false" class="flex items-center gap-2">
+      <img src="./images/logo_dark.jpg" alt="YH" class="h-10 w-10 rounded object-cover">
+      <span class="font-bold text-lg text-emerald-700 dark:text-emerald-400 hidden sm:inline">Yangihayot</span>
+    </a>
+    <div class="hidden md:flex items-center gap-1">
+      <button onclick="showPage('home')" class="nav-link px-3 py-2 text-sm font-semibold rounded hover:bg-slate-100 dark:hover:bg-slate-700" data-page="home" data-i18n="m_home">Bosh sahifa</button>
+      <button onclick="showPage('directions')" class="nav-link px-3 py-2 text-sm font-semibold rounded hover:bg-slate-100 dark:hover:bg-slate-700" data-page="directions" data-i18n="m_dir">Yoʻnalishlar</button>
+      <button onclick="showPage('news')" class="nav-link px-3 py-2 text-sm font-semibold rounded hover:bg-slate-100 dark:hover:bg-slate-700" data-page="news" data-i18n="m_news">Yangiliklar</button>
+      <button onclick="showPage('map')" class="nav-link px-3 py-2 text-sm font-semibold rounded hover:bg-slate-100 dark:hover:bg-slate-700" data-page="map" data-i18n="m_map">Xarita</button>
+      <button onclick="showPage('about')" class="nav-link px-3 py-2 text-sm font-semibold rounded hover:bg-slate-100 dark:hover:bg-slate-700" data-page="about" data-i18n="m_about">Biz haqimizda</button>
+      <button onclick="showPage('contacts')" class="nav-link px-3 py-2 text-sm font-semibold rounded hover:bg-slate-100 dark:hover:bg-slate-700" data-page="contacts" data-i18n="m_contacts">Aloqa</button>
     </div>
-    <div class="flex gap-2 overflow-x-auto pb-2 border-b border-slate-200">
-      <button onclick="showTab('info')" class="tab-btn px-4 py-2 font-semibold text-emerald-600 border-b-2 border-emerald-600 whitespace-nowrap" data-tab="info"><span data-i18n="tab_info">ℹ️ Info</span></button>
-      <button onclick="showTab('manufacturing')" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent whitespace-nowrap" data-tab="manufacturing"><span data-i18n="tab_manufacturing">🏭 Manufacturing</span></button>
-      <button onclick="showTab('textile')" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent whitespace-nowrap" data-tab="textile"><span data-i18n="tab_textile">👕 Textile</span></button>
-      <button onclick="showTab('electrical')" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent whitespace-nowrap" data-tab="electrical"><span data-i18n="tab_electrical">⚡ Electrical</span></button>
-      <button onclick="showTab('food')" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent whitespace-nowrap" data-tab="food"><span data-i18n="tab_food">🍕 Food</span></button>
-      <button onclick="showTab('metal')" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent whitespace-nowrap" data-tab="metal"><span data-i18n="tab_metal">⚙️ Metal</span></button>
-      <button onclick="showTab('construction')" class="tab-btn px-4 py-2 font-semibold text-slate-600 border-b-2 border-transparent whitespace-nowrap" data-tab="construction"><span data-i18n="tab_construction">🏗️ Construction</span></button>
+    <div class="flex items-center gap-2">
+      <button onclick="toggleSearch()" class="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-700"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+      <div class="relative">
+        <button onclick="toggleLang()" class="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-700"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></button>
+        <div id="langMenu" class="lang-menu absolute right-0 mt-2 bg-white dark:bg-slate-800 shadow-lg rounded-lg border border-slate-200 dark:border-slate-700 py-1 w-28 z-50">
+          <button onclick="setLang('uz')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700">🇺🇿 UZ</button>
+          <button onclick="setLang('ru')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700">🇷🇺 RU</button>
+          <button onclick="setLang('en')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700">🇬🇧 EN</button>
+          <button onclick="setLang('zh')" class="w-full text-left px-4 py-2 text-sm hover:bg-slate-100 dark:hover:bg-slate-700">🇨🇳 中文</button>
+        </div>
+      </div>
+      <button onclick="toggleTheme()" class="p-2 rounded hover:bg-slate-100 dark:hover:bg-slate-700">
+        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+      </button>
+      <button onclick="toggleMobile()" class="md:hidden p-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button>
     </div>
+  </div>
+  <div id="searchBar" class="hidden border-t border-slate-200 dark:border-slate-700 p-3">
+    <input type="text" id="searchInput" placeholder="🔍 Tadbirkorlarni qidirish..." oninput="searchCompanies(this.value)" class="w-full max-w-7xl mx-auto block px-4 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 rounded-lg">
+    <div id="searchResults" class="max-w-7xl mx-auto mt-2 hidden bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 max-h-64 overflow-y-auto"></div>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-700">
+    <button onclick="showPage('home');toggleMobile()" class="block w-full text-left px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700" data-i18n="m_home">Bosh sahifa</button>
+    <button onclick="showPage('directions');toggleMobile()" class="block w-full text-left px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700" data-i18n="m_dir">Yoʻnalishlar</button>
+    <button onclick="showPage('news');toggleMobile()" class="block w-full text-left px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700" data-i18n="m_news">Yangiliklar</button>
+    <button onclick="showPage('map');toggleMobile()" class="block w-full text-left px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700" data-i18n="m_map">Xarita</button>
+    <button onclick="showPage('about');toggleMobile()" class="block w-full text-left px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700" data-i18n="m_about">Biz haqimizda</button>
+    <button onclick="showPage('contacts');toggleMobile()" class="block w-full text-left px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-700" data-i18n="m_contacts">Aloqa</button>
   </div>
 </nav>
 
-<div id="page-info">
-  <section class="relative">
-    <img src="./images/Vid_s_verxu.jpg" alt="Aerial view" class="w-full h-96 object-cover cursor-pointer" onclick="openModal(this.src)">
-    <div class="absolute inset-0 bg-gradient-to-r from-emerald-900/80 to-emerald-700/40 flex items-center">
-      <div class="max-w-7xl mx-auto px-4 w-full">
-        <h2 class="text-5xl font-bold text-white mb-4">Yangihayot Technopark</h2>
-        <p class="text-xl text-emerald-50 max-w-2xl" data-i18n="hero_desc">Premium industrial technopark</p>
+<main>
+
+<!-- HOME -->
+<div id="page-home" class="page fade">
+  <section class="relative h-[70vh] md:h-[80vh] overflow-hidden flex items-center justify-center bg-emerald-900">
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-60">
+      <source src="./images/Wall_bosh_sahifa.mp4" type="video/mp4">
+    </video>
+    <div class="absolute inset-0 bg-gradient-to-b from-emerald-900/40 via-transparent to-emerald-900/80"></div>
+    <div class="relative z-10 text-center px-4">
+      <h1 class="text-6xl md:text-8xl font-black text-white mb-2 drop-shadow-2xl tracking-tight">Yangihayot</h1>
+      <p class="text-lg md:text-2xl text-emerald-200 font-medium tracking-widest uppercase mb-4">industrial texnopark</p>
+      <div class="h-8 flex items-center justify-center">
+        <p id="typingText" class="text-base md:text-xl text-emerald-300 border-r-2 border-emerald-300 pr-1"></p>
       </div>
     </div>
   </section>
 
-  <section class="bg-emerald-600 text-white py-12 px-4">
-    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="bg-white/20 rounded-lg p-6"><div class="text-4xl font-bold">46</div><div class="text-lg mt-2" data-i18n="stat_projects">Projects</div></div>
-      <div class="bg-white/20 rounded-lg p-6"><div class="text-4xl font-bold">306K+</div><div class="text-lg mt-2" data-i18n="stat_workers">Workers</div></div>
-      <div class="bg-white/20 rounded-lg p-6"><div class="text-4xl font-bold">$2.6M</div><div class="text-lg mt-2" data-i18n="stat_export">Export</div></div>
-      <div class="bg-white/20 rounded-lg p-6"><div class="text-4xl font-bold">76 ha</div><div class="text-lg mt-2" data-i18n="stat_area">Area</div></div>
+  <section class="bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-800 dark:to-emerald-900 text-white py-14 px-4">
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+      <div><div class="text-4xl md:text-5xl font-bold mb-2" id="cnt1">0</div><div class="text-emerald-100 text-sm" data-i18n="s_lots">Lotlar</div></div>
+      <div><div class="text-4xl md:text-5xl font-bold mb-2" id="cnt2">0</div><div class="text-emerald-100 text-sm" data-i18n="s_workers">Ishchilar</div></div>
+      <div><div class="text-4xl md:text-5xl font-bold mb-2" id="cnt3">/bin/sh</div><div class="text-emerald-100 text-sm" data-i18n="s_export">Eksport</div></div>
+      <div><div class="text-4xl md:text-5xl font-bold mb-2" id="cnt4">0</div><div class="text-emerald-100 text-sm" data-i18n="s_hectares">Gektar</div></div>
     </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-4 py-16">
-    <h2 class="text-3xl font-bold text-emerald-900 mb-8" data-i18n="about_title">About Yangihayot</h2>
-    <div class="grid md:grid-cols-2 gap-12">
-      <div>
-        <p class="text-slate-600 text-lg leading-relaxed mb-4" data-i18n="about_text1">Yangihayot is the premier industrial technopark located in Tashkent.</p>
-        <p class="text-slate-600 text-lg leading-relaxed" data-i18n="about_text2">Premium facilities with full infrastructure and logistics.</p>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="bg-emerald-50 rounded-lg p-6 border border-emerald-200"><div class="text-4xl mb-3">🏭</div><h4 class="font-bold text-emerald-900 mb-2" data-i18n="f1">Manufacturing</h4><p class="text-sm text-slate-600" data-i18n="f1d">Modern equipment</p></div>
-        <div class="bg-blue-50 rounded-lg p-6 border border-blue-200"><div class="text-4xl mb-3">🚚</div><h4 class="font-bold text-blue-900 mb-2" data-i18n="f2">Logistics</h4><p class="text-sm text-slate-600" data-i18n="f2d">Great connectivity</p></div>
-        <div class="bg-purple-50 rounded-lg p-6 border border-purple-200"><div class="text-4xl mb-3">💼</div><h4 class="font-bold text-purple-900 mb-2" data-i18n="f3">Business</h4><p class="text-sm text-slate-600" data-i18n="f3d">Support & investment</p></div>
-        <div class="bg-orange-50 rounded-lg p-6 border border-orange-200"><div class="text-4xl mb-3">👥</div><h4 class="font-bold text-orange-900 mb-2" data-i18n="f4">Community</h4><p class="text-sm text-slate-600" data-i18n="f4d">Strong network</p></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-slate-100 py-16 px-4">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center" data-i18n="sectors_title">Our Sectors</h2>
-      <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg cursor-pointer text-center" onclick="showTab('manufacturing')"><div class="text-5xl mb-4">🏭</div><h4 class="font-bold" data-i18n="tab_manufacturing">Manufacturing</h4><p class="text-sm text-slate-600 mt-2">15</p></div>
-        <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg cursor-pointer text-center" onclick="showTab('textile')"><div class="text-5xl mb-4">👕</div><h4 class="font-bold" data-i18n="tab_textile">Textile</h4><p class="text-sm text-slate-600 mt-2">8</p></div>
-        <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg cursor-pointer text-center" onclick="showTab('electrical')"><div class="text-5xl mb-4">⚡</div><h4 class="font-bold" data-i18n="tab_electrical">Electrical</h4><p class="text-sm text-slate-600 mt-2">6</p></div>
-        <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg cursor-pointer text-center" onclick="showTab('food')"><div class="text-5xl mb-4">🍕</div><h4 class="font-bold" data-i18n="tab_food">Food</h4><p class="text-sm text-slate-600 mt-2">7</p></div>
-        <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg cursor-pointer text-center" onclick="showTab('metal')"><div class="text-5xl mb-4">⚙️</div><h4 class="font-bold" data-i18n="tab_metal">Metal</h4><p class="text-sm text-slate-600 mt-2">5</p></div>
-        <div class="bg-white rounded-lg p-6 shadow hover:shadow-lg cursor-pointer text-center" onclick="showTab('construction')"><div class="text-5xl mb-4">🏗️</div><h4 class="font-bold" data-i18n="tab_construction">Construction</h4><p class="text-sm text-slate-600 mt-2">3</p></div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<div id="page-sector" class="hidden max-w-7xl mx-auto px-4 py-16">
-  <img id="sectorImg" src="" alt="" class="w-full h-64 object-cover rounded-lg shadow-lg mb-8 cursor-pointer" onclick="openModal(this.src)">
-  <h2 id="sectorTitle" class="text-4xl font-bold text-emerald-900 mb-8">Manufacturing</h2>
-  <div class="mb-8 flex gap-4 flex-wrap">
-    <input type="text" id="search" data-i18n-ph="search_ph" placeholder="🔍 Search..." class="flex-1 min-w-64 px-4 py-3 border border-gray-300 rounded-lg" onkeyup="renderProjects()">
-    <select id="sort" class="px-4 py-3 border border-gray-300 rounded-lg" onchange="renderProjects()">
-      <option value="name" data-i18n="sort_name">Name</option>
-      <option value="export" data-i18n="sort_export">Export</option>
-      <option value="workers" data-i18n="sort_workers">Workers</option>
-    </select>
+  <section class="relative py-0 overflow-hidden bg-slate-900">
+  <div class="absolute inset-0">
+    <img src="./images/Prezident.JPG" alt="Prezident" class="w-full h-full object-cover object-top opacity-40">
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/95 via-slate-900/70 to-slate-900/40"></div>
   </div>
-  <div id="grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-4 py-16 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <div class="text-7xl text-emerald-400 leading-none mb-3">&ldquo;</div>
+      <blockquote class="text-xl md:text-2xl italic text-white leading-relaxed mb-6 font-light">O&#699;zbekistonda sanoat texnoparklarini rivojlantirish &mdash; iqtisodiyotimizni modernizatsiya qilish va yangi ish o&#699;rinlari yaratishning asosiy yo&#700;nalishidir.</blockquote>
+      <cite class="text-emerald-400 font-bold not-italic text-lg">&mdash; Shavkat Mirziyoyev</cite>
+      <div class="mt-4 text-slate-400 text-sm">O&#699;zbekiston Respublikasi Prezidenti</div>
+    </div>
+    <div class="hidden md:flex justify-end">
+      <div class="relative">
+        <div class="absolute -inset-1 bg-emerald-500/30 rounded-2xl blur-lg"></div>
+        <img src="./images/Prezident.JPG" class="relative rounded-2xl shadow-2xl w-[480px] h-[360px] object-cover object-top border-2 border-emerald-500/40">
+        <div class="absolute bottom-3 left-3 right-3 bg-black/60 backdrop-blur-sm rounded-xl p-2 text-center">
+          <p class="text-white text-xs font-semibold">Yangihayot Industrial Texnopark</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-7xl mx-auto px-4 py-14">
+  <h2 class="text-3xl font-bold text-center mb-10" data-i18n="transformation">O&#699;zgarish</h2>
+  <div class="rounded-2xl overflow-hidden shadow-2xl">
+    <video autoplay muted loop playsinline class="w-full" style="max-height:520px;object-fit:cover;">
+      <source src="./images/do_posle.mp4" type="video/mp4">
+    </video>
+  </div>
+</section>
+
+  <section class="py-10 bg-slate-100 dark:bg-slate-800 overflow-hidden">
+    <p class="text-center text-slate-400 text-xs font-semibold uppercase tracking-widest mb-5" data-i18n="ticker_title">Texnoparkdagi kompaniyalar</p>
+    <div style="display:flex;gap:1.5rem;animation:ticker 40s linear infinite;width:max-content;align-items:center">
+      <div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/cardel.png" alt="Cardel" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Cardel</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/krember.png" alt="Krember" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Krember</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/technoplastic.png" alt="Technoplastic" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Technoplastic</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/zamonaviy.png" alt="Zamonaviy Toshkent" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Zamonaviy Toshkent</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/fiksat.png" alt="Fiksat Plast" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Fiksat Plast</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/rossen.png" alt="Rossen" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Rossen</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/sarayli.png" alt="Sarayli" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Sarayli</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/maxcopper.png" alt="MaxCopper" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">MaxCopper</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/firdavs.png" alt="Firdavs" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Firdavs</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/danim.png" alt="Danim" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Danim</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/karvon.png" alt="Karvon Trade" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Karvon Trade</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/marja.png" alt="Marja" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Marja</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/saxiy.png" alt="Saxiy Dunyo" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Saxiy Dunyo</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/metalix.png" alt="Metalix" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Metalix</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/eeb.png" alt="EEB" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">EEB</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/weetah.png" alt="Weetah" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Weetah</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/autopower.png" alt="Auto Power" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Auto Power</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/mirra.png" alt="Mirra" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Mirra</span></div>
+      <div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/cardel.png" alt="Cardel" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Cardel</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/krember.png" alt="Krember" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Krember</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/technoplastic.png" alt="Technoplastic" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Technoplastic</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/zamonaviy.png" alt="Zamonaviy Toshkent" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Zamonaviy Toshkent</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/fiksat.png" alt="Fiksat Plast" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Fiksat Plast</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/rossen.png" alt="Rossen" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Rossen</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/sarayli.png" alt="Sarayli" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Sarayli</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/maxcopper.png" alt="MaxCopper" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">MaxCopper</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/firdavs.png" alt="Firdavs" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Firdavs</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/danim.png" alt="Danim" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Danim</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/karvon.png" alt="Karvon Trade" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Karvon Trade</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/marja.png" alt="Marja" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Marja</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/saxiy.png" alt="Saxiy Dunyo" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Saxiy Dunyo</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/metalix.png" alt="Metalix" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Metalix</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/eeb.png" alt="EEB" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">EEB</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/weetah.png" alt="Weetah" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Weetah</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/autopower.png" alt="Auto Power" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Auto Power</span></div><div class="flex-shrink-0 flex items-center justify-center bg-white dark:bg-slate-700 rounded-xl px-4 py-3 shadow border border-slate-100 dark:border-slate-600" style="min-width:150px;height:70px;"><img src="./images/logos/mirra.png" alt="Mirra" class="h-10 w-auto object-contain max-w-[130px]" onerror="this.style.display=chr(39)+none+chr(39);this.nextElementSibling.style.display=chr(39)+block+chr(39)"><span class="text-xs font-bold text-slate-500 hidden">Mirra</span></div>
+    </div>
 </div>
 
-<div id="modal" class="modal fixed inset-0 bg-black/80 z-50 items-center justify-center p-4" onclick="closeModal()">
-  <img id="modalImg" src="" class="max-w-full max-h-full rounded-lg">
-  <button onclick="closeModal()" class="absolute top-4 right-4 bg-white text-black rounded-full w-12 h-12 text-xl">✕</button>
+<!-- DIRECTIONS -->
+<div id="page-directions" class="page hidden">
+  <section class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-3" data-i18n="m_dir">Yoʻnalishlar</h1>
+    <p class="text-slate-500 mb-8" id="dir_total"></p>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('logistics')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Logistika.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm" data-i18n="d_cnt_log">11 ta</div></div><div class="p-4 flex items-center justify-between"><h3 class="font-bold" data-i18n="d_log">Logistika</h3><span class="inline-block bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">7</span></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('food')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Oziq_ovqat.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">10 ta</div></div><div class="p-4 flex items-center justify-between"><h3 class="font-bold" data-i18n="d_food">Oziq-ovqat</h3><span class="inline-block bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">10</span></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('manufacturing')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Ishlab_chiqarish.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">7 ta</div></div><div class="p-4 flex items-center justify-between"><h3 class="font-bold" data-i18n="d_man">Boshqa sanoat tarmoqlari</h3><span class="inline-block bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">7</span></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('construction')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Qurilish.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">11 ta</div></div><div class="p-4 flex items-center justify-between"><h3 class="font-bold" data-i18n="d_con">Qurilish materiallari</h3><span class="inline-block bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">11</span></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('textile')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Tekstil.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">4 ta</div></div><div class="p-4 flex items-center justify-between"><h3 class="font-bold" data-i18n="d_tex">Tekstil va toʻqimachilik</h3><span class="inline-block bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">4</span></div></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer" onclick="filterSector('electrical')"><div class="h-36 relative overflow-hidden"><img src="./images/sectors/Elektrotexnik.png" class="w-full h-full object-cover"></div><div class="hidden"><div class="text-white font-bold text-sm">3 ta</div></div><div class="p-4 flex items-center justify-between"><h3 class="font-bold" data-i18n="d_elec">Elektrotexnika</h3><span class="inline-block bg-emerald-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">3</span></div></div>
+    </div>
+    <div id="companiesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 hidden"></div>
+  </section>
 </div>
 
-<footer class="bg-slate-900 text-white py-12 px-4 mt-16">
-  <div class="max-w-7xl mx-auto text-center">© 2026 Yangihayot Technopark</div>
+<!-- NEWS -->
+<div id="page-news" class="page hidden">
+  <section class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8" data-i18n="m_news">Yangiliklar</h1>
+    <div class="space-y-6">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all"><span class="text-xs text-emerald-600 font-semibold bg-emerald-50 dark:bg-emerald-900 px-2 py-1 rounded">2026-06-01</span><h3 class="text-xl font-bold mt-3 mb-2">Yangihayot Texnopark yangi investorlarni qabul qildi</h3><p class="text-slate-500">Yangi investorlar bilan hamkorlik shartnomasi imzolandi...</p></div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all"><span class="text-xs text-emerald-600 font-semibold bg-emerald-50 dark:bg-emerald-900 px-2 py-1 rounded">2026-05-15</span><h3 class="text-xl font-bold mt-3 mb-2">Eksport hajmi yangi rekordga yetdi</h3><p class="text-slate-500">Texnoparkdagi korxonalar eksport hajmini oshirdi...</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- MAP -->
+<div id="page-map" class="page hidden">
+  <section class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-4" data-i18n="m_map">Xarita</h1>
+    <p class="text-slate-500 mb-6">Lot raqamini bosing — tadbirkor ma'lumotlarini ko'ring</p>
+    <div class="grid lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2">
+        <div class="relative rounded-2xl overflow-hidden shadow-xl">
+          <img src="./images/Lot_raqamlari.png" class="w-full" id="mapImg" onclick="handleMapClick(event)" style="cursor:crosshair">
+        </div>
+        <div class="mt-4 grid grid-cols-2 gap-3">
+          <div class="rounded-xl overflow-hidden shadow-lg cursor-pointer" onclick="openModal('./images/promzona_oshiy_vid_2.jpg')"><img src="./images/promzona_oshiy_vid_2.jpg" class="w-full h-32 object-cover hover:scale-105 transition-transform duration-500"></div>
+          <div class="rounded-xl overflow-hidden shadow-lg cursor-pointer" onclick="openModal('./images/promzona_oshiy_vid_3.jpg')"><img src="./images/promzona_oshiy_vid_3.jpg" class="w-full h-32 object-cover hover:scale-105 transition-transform duration-500"></div>
+        </div>
+      </div>
+      <div>
+        <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-4 mb-4">
+          <h3 class="font-bold mb-3">Lot raqami bo'yicha qidirish</h3>
+          <div class="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
+            <script>
+            // Lot buttons will be rendered by JS
+            </script>
+          </div>
+          <div id="lotButtons" class="flex flex-wrap gap-2 max-h-48 overflow-y-auto"></div>
+        </div>
+        <div id="mapCompanyInfo" class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-5 hidden">
+          <h3 id="mci_name" class="font-bold text-lg text-emerald-700 dark:text-emerald-400 mb-3"></h3>
+          <div id="mci_body" class="space-y-2 text-sm"></div>
+        </div>
+        <div id="mapEmpty" class="bg-white dark:bg-slate-800 rounded-2xl p-8 text-center text-slate-400">
+          <div class="text-4xl mb-3">📍</div>
+          <p>Lot raqamini tanlang</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ABOUT -->
+<div id="page-about" class="page hidden">
+  <section class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-8" data-i18n="m_about">Biz haqimizda</h1>
+    <div class="grid md:grid-cols-2 gap-6 mb-10">
+      <div class="relative rounded-2xl overflow-hidden shadow-xl cursor-pointer" onclick="openModal('./images/Before.jpg')"><img src="./images/Before.jpg" class="w-full h-56 object-cover hover:scale-105 transition-transform duration-500"><div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 p-3"><p class="text-white font-bold" data-i18n="before">Oldin</p></div></div>
+      <div class="relative rounded-2xl overflow-hidden shadow-xl cursor-pointer" onclick="openModal('./images/Now.jpg')"><img src="./images/Now.jpg" class="w-full h-56 object-cover hover:scale-105 transition-transform duration-500"><div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 p-3"><p class="text-white font-bold" data-i18n="now">Hozir</p></div></div>
+    </div>
+    <p class="text-lg leading-relaxed mb-6" data-i18n="about_p1">Yangihayot industrial texnoparki — Toshkent shahridagi yetakchi sanoat klasteri.</p>
+    <h2 class="text-2xl font-bold mt-8 mb-4" data-i18n="about_history">Tarix</h2>
+    <p class="leading-relaxed mb-6" data-i18n="about_p2">Texnopark Oʻzbekiston Respublikasi Prezidentining qarori bilan tashkil etilgan.</p>
+    <h2 class="text-2xl font-bold mt-8 mb-4" data-i18n="about_decisions">Prezident qarorlari</h2>
+    <p class="leading-relaxed" data-i18n="about_p3">Texnopark faoliyati prezident qarorlari asosida tartibga solinadi.</p>
+  </section>
+</div>
+
+<!-- CONTACTS -->
+<div id="page-contacts" class="page hidden">
+  <section class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold mb-2" data-i18n="m_contacts">Aloqa</h1>
+    <p class="text-slate-500 mb-8 flex items-center gap-2"><svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Toshkent shahar, Yangihayot tumani, Toshkent mahallasi</p>
+    <div class="grid sm:grid-cols-3 gap-6 mb-10">
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-all">
+        <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center text-white text-3xl font-bold">У</div>
+        <h3 class="font-bold text-lg">Умаров Умид</h3>
+        <p class="text-sm text-slate-500 mb-3" data-i18n="pos_dir">Bosh direktor</p>
+        <a href="tel:+998977110099" class="inline-flex items-center gap-1 text-emerald-600 hover:underline text-sm font-semibold">📞 +998 97 711 00 99</a>
+      </div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-all">
+        <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-3xl font-bold">Р</div>
+        <h3 class="font-bold text-lg">Раззоқов Жамшид</h3>
+        <p class="text-sm text-slate-500 mb-3" data-i18n="pos_dep">Direktor oʻrinbosari</p>
+        <a href="tel:+998933922494" class="inline-flex items-center gap-1 text-emerald-600 hover:underline text-sm font-semibold">📞 +998 93 392 24 94</a>
+      </div>
+      <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 text-center hover:shadow-xl transition-all">
+        <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-bold">Б</div>
+        <h3 class="font-bold text-lg">Ботиров Раҳматжон</h3>
+        <p class="text-sm text-slate-500 mb-3" data-i18n="pos_inv">Investorlar bilan ishlash boʻlimi</p>
+        <a href="tel:+998977502767" class="inline-flex items-center gap-1 text-emerald-600 hover:underline text-sm font-semibold">📞 +998 97 750 27 67</a>
+      </div>
+    </div>
+    <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6">
+      <h3 class="font-bold text-lg mb-4">📍 Manzil</h3>
+      <p class="text-slate-600 dark:text-slate-300 mb-4">Toshkent shahar, Yangihayot tumani, Toshkent mahallasi</p>
+      <div class="flex gap-4 flex-wrap">
+        <a href="https://maps.app.goo.gl/ERgwyxzqRsZX1oHu9" target="_blank" class="flex items-center gap-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 hover:shadow-md transition-all font-semibold text-sm">📍 Google Maps</a>
+        <a href="https://yandex.uz/maps/-/CPTdr0KA" target="_blank" class="flex items-center gap-2 bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl px-4 py-3 hover:shadow-md transition-all font-semibold text-sm">🗺️ Yandex Navigator</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<!-- MODAL -->
+<div id="modal" class="hidden fixed inset-0 bg-black/85 z-50 items-center justify-center p-4" onclick="closeModal()">
+  <img id="modalImg" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl">
+  <button class="absolute top-4 right-4 bg-white text-black rounded-full w-10 h-10 text-lg font-bold hover:bg-slate-100">✕</button>
+</div>
+
+<!-- COMPANY MODAL -->
+<div id="companyModal" class="hidden fixed inset-0 bg-black/70 z-50 items-center justify-center p-4" onclick="closeCompanyModal()">
+  <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="flex justify-between items-start mb-4">
+      <div>
+        <span id="cm_lot" class="text-xs bg-emerald-100 text-emerald-700 px-2 py-1 rounded font-bold"></span>
+        <h2 id="cm_name" class="text-xl font-bold mt-2"></h2>
+      </div>
+      <button onclick="closeCompanyModal()" class="text-slate-400 hover:text-slate-600 text-2xl font-bold">✕</button>
+    </div>
+    <div id="cm_slider" class="mb-4 hidden">
+      <div class="relative rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-700" style="height:220px">
+        <img id="cm_img1" src="" class="absolute inset-0 w-full h-full object-cover cursor-zoom-in transition-opacity duration-300 opacity-100" onclick="openModal(this.src)">
+        <img id="cm_img2" src="" class="absolute inset-0 w-full h-full object-cover cursor-zoom-in transition-opacity duration-300 opacity-0" onclick="openModal(this.src)">
+        <button onclick="sliderPrev()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center text-xl z-10">&#8249;</button>
+        <button onclick="sliderNext()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center text-xl z-10">&#8250;</button>
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+          <div id="dot1" class="w-2 h-2 rounded-full bg-white opacity-100 cursor-pointer" onclick="sliderGo(0)"></div>
+          <div id="dot2" class="w-2 h-2 rounded-full bg-white opacity-40 cursor-pointer" onclick="sliderGo(1)"></div>
+        </div>
+      </div>
+    </div>
+    <div id="cm_slider" class="mb-4 hidden">
+      <div class="relative rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-700" style="height:220px">
+        <img id="cm_img1" src="" class="absolute inset-0 w-full h-full object-cover cursor-zoom-in transition-opacity duration-300 opacity-100" onclick="openModal(this.src)">
+        <img id="cm_img2" src="" class="absolute inset-0 w-full h-full object-cover cursor-zoom-in transition-opacity duration-300 opacity-0" onclick="openModal(this.src)">
+        <button onclick="sliderPrev()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center text-xl z-10">&#8249;</button>
+        <button onclick="sliderNext()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white rounded-full w-9 h-9 flex items-center justify-center text-xl z-10">&#8250;</button>
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2">
+          <div id="dot1" class="w-2 h-2 rounded-full bg-white opacity-100 cursor-pointer" onclick="sliderGo(0)"></div>
+          <div id="dot2" class="w-2 h-2 rounded-full bg-white opacity-40 cursor-pointer" onclick="sliderGo(1)"></div>
+        </div>
+      </div>
+    </div>
+    <div id="cm_body" class="space-y-3"></div>
+  </div>
+</div>
+
+<footer class="bg-slate-900 dark:bg-black text-white py-10 px-4 mt-12">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-center gap-6 mb-6">
+      <a href="https://www.instagram.com/yangihayot.uzb" target="_blank" class="bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500 p-3 rounded-full hover:scale-110 transition-transform"><svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a href="https://t.me/yangihayot_texnopark" target="_blank" class="bg-blue-500 p-3 rounded-full hover:scale-110 transition-transform"><svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.643.135-.953l11.566-4.458c.538-.196 1.006.128.832.941z"/></svg></a>
+      <a href="https://www.facebook.com/yangihayottexnopark" target="_blank" class="bg-blue-600 p-3 rounded-full hover:scale-110 transition-transform"><svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+    </div>
+    <div class="text-center text-slate-400 text-sm mb-1">Toshkent shahar, Yangihayot tumani, Toshkent mahallasi</div>
+    <div class="text-center text-slate-500 text-xs">© 2026 Yangihayot Industrial Texnopark</div>
+  </div>
 </footer>
 
 <script>
-const i18n = {
-  uz: {tab_info:'ℹ️ Maʼlumot',tab_manufacturing:'🏭 Ishlab chiqarish',tab_textile:'👕 Toʻqimachilik',tab_electrical:'⚡ Elektrotexnika',tab_food:'🍕 Oziq-ovqat',tab_metal:'⚙️ Metall',tab_construction:'🏗️ Qurilish',hero_desc:'46 ta faol kompaniya bilan premium sanoat texnoparki',stat_projects:'Loyihalar',stat_workers:'Ishchilar',stat_export:'Eksport',stat_area:'Maydon',about_title:'Yangihayot haqida',about_text1:'Yangihayot — Toshkentdagi yetakchi sanoat texnoparki.',about_text2:'Toʻliq infratuzilma va logistika bilan premium obʼyektlar.',f1:'Ishlab chiqarish',f1d:'Zamonaviy jihozlar',f2:'Logistika',f2d:'Aʼlo aloqa',f3:'Biznes',f3d:'Qoʻllab-quvvatlash',f4:'Jamoa',f4d:'Kuchli tarmoq',sectors_title:'Bizning sohalar',search_ph:'🔍 Qidirish...',sort_name:'Nomi',sort_export:'Eksport',sort_workers:'Ishchilar'},
-  ru: {tab_info:'ℹ️ Информация',tab_manufacturing:'🏭 Производство',tab_textile:'👕 Текстиль',tab_electrical:'⚡ Электротехника',tab_food:'🍕 Пищевая',tab_metal:'⚙️ Металл',tab_construction:'🏗️ Строительство',hero_desc:'Премиум индустриальный технопарк с 46 активными компаниями',stat_projects:'Проектов',stat_workers:'Рабочих',stat_export:'Экспорт',stat_area:'Площадь',about_title:'О Yangihayot',about_text1:'Yangihayot — ведущий индустриальный технопарк в Ташкенте.',about_text2:'Премиум объекты с полной инфраструктурой и логистикой.',f1:'Производство',f1d:'Современное оборудование',f2:'Логистика',f2d:'Отличное сообщение',f3:'Бизнес',f3d:'Поддержка инвестиций',f4:'Сообщество',f4d:'Сильная сеть',sectors_title:'Наши направления',search_ph:'🔍 Поиск...',sort_name:'Название',sort_export:'Экспорт',sort_workers:'Рабочие'},
-  en: {tab_info:'ℹ️ Info',tab_manufacturing:'🏭 Manufacturing',tab_textile:'👕 Textile',tab_electrical:'⚡ Electrical',tab_food:'🍕 Food',tab_metal:'⚙️ Metal',tab_construction:'🏗️ Construction',hero_desc:'Premium industrial technopark with 46 active companies',stat_projects:'Projects',stat_workers:'Workers',stat_export:'Export',stat_area:'Area',about_title:'About Yangihayot',about_text1:'Yangihayot is the premier industrial technopark in Tashkent.',about_text2:'Premium facilities with full infrastructure and logistics.',f1:'Manufacturing',f1d:'Modern equipment',f2:'Logistics',f2d:'Great connectivity',f3:'Business',f3d:'Investment support',f4:'Community',f4d:'Strong network',sectors_title:'Our Sectors',search_ph:'🔍 Search...',sort_name:'Name',sort_export:'Export',sort_workers:'Workers'},
-  zh: {tab_info:'ℹ️ 信息',tab_manufacturing:'🏭 制造',tab_textile:'👕 纺织',tab_electrical:'⚡ 电气',tab_food:'🍕 食品',tab_metal:'⚙️ 金属',tab_construction:'🏗️ 建筑',hero_desc:'拥有46家活跃公司的高级工业技术园',stat_projects:'项目',stat_workers:'工人',stat_export:'出口',stat_area:'面积',about_title:'关于扬吉海约',about_text1:'扬吉海约是塔什干首屈一指的工业技术园。',about_text2:'拥有完整基础设施和物流的高级设施。',f1:'制造',f1d:'现代设备',f2:'物流',f2d:'良好连接',f3:'业务',f3d:'投资支持',f4:'社区',f4d:'强大网络',sectors_title:'我们的部门',search_ph:'🔍 搜索...',sort_name:'名称',sort_export:'出口',sort_workers:'工人'}
-};
+const companies=[{lot:'2',name:'ACCORD-VISION МЧЖ',area:5.0,sector:'food',tarmoq:'Озиқ-овқат',act:'Қандолат маҳсулотлари ишлаб чиқариш',budget:29606,exp:5000,inv:264000,deadline:'2026-06',jobs:250,st:'b',st_t:'Қурилишда',tel:'Мирафзал (97) 705-66-65 Отабек'},
+{lot:'3',name:'PERFECT LEADER ELECTRICAL МЧЖ',area:2.2,sector:'electrical',tarmoq:'Электр техника',act:'Электр техника махсулотларини ишлаб чиқариш',budget:9881,exp:2000,inv:80000,deadline:'2025-09',jobs:100,st:'w',st_t:'Ишга тушган',tel:'Омон ака  90 905 93 00 Умиджон'},
+{lot:'5',name:'Фуқаро ABDURAXMONOV DAVRON NOSIROVICH',area:1.0,sector:'textile',tarmoq:'Текстиль ва тўқимачилик',act:'Холофайбер ишлаб чиқариш',budget:5653,exp:500,inv:30000,deadline:'2024-09',jobs:50,st:'w',st_t:'Ишга тушган',tel:'+99890 371 8486 Даврон +99890 '},
+{lot:'6',name:'Фуқаро MIRZAYEV YUSUPDJAN GULAMOVICH FIRDAVS ',area:1.0,sector:'food',tarmoq:'Озиқ-овқат',act:'Кандолат маҳсулотларини чиқариш',budget:13922,exp:1000,inv:50000,deadline:'2025-09',jobs:110,st:'w',st_t:'Ишга тушган',tel:'Орифжон ака 97-403-19-15 Иброх'},
+{lot:'7',name:'ALMERRO GROUP МЧЖ',area:3.33,sector:'food',tarmoq:'Озиқ-овқат',act:'Кандолат маҳсулотларини ишлаб чиқариш',budget:24938,exp:5000,inv:100000,deadline:'31.12.2',jobs:200,st:'w',st_t:'Ишга тушган',tel:'Умид 97-700-95-80 Абдувохид 99'},
+{lot:'8',name:'AYSEL INSHAAT МЧЖ ҚК',area:18.85,sector:'logistics',tarmoq:'Логистика ва хизмат кўрсатиш',act:'Замонавий логистика маркази хизмати',budget:1875,exp:0,inv:200000,deadline:'2027-03',jobs:400,st:'b',st_t:'Қурилишда',tel:'Алишер 90-999-67-51 99 444 92 '},
+{lot:'9',name:'NEW TIMES BUILDINGS МЧЖ',area:1.21,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Металга ишлов бериш',budget:9993,exp:0,inv:50000,deadline:'2025-11',jobs:50,st:'w',st_t:'Ишга тушган',tel:'Дилшод (95) 902-10-10 Абдуллох'},
+{lot:'10',name:'ZAMONAVIY TOSHKENT МЧЖ',area:0.86,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Замонавий метал конструкция ишлаб чиқариш ва маъму',budget:6765,exp:0,inv:15000,deadline:'2026-04',jobs:30,st:'w',st_t:'Ишга тушган',tel:'Улуғбек (99) 797-15-31  Zuxrid'},
+{lot:'11',name:'Фуқаро MUXAMADALIYEV SAIDAZIM SAIDMAXMUDOVICH',area:0.68,sector:'food',tarmoq:'Озиқ-овқат',act:'1 марталик қадоқлаш маҳсулотлари ишлаб чиқариш',budget:5381,exp:0,inv:40000,deadline:'2026-06',jobs:50,st:'b',st_t:'Қурилишда',tel:'Саидазим (90) 323-77-77'},
+{lot:'12',name:'Фуқаро KABILOV XIKMATILLA APPANOVICH',area:0.68,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Полизол махсулотларини ишлаб чиқариш',budget:5938,exp:0,inv:15000,deadline:'2026-08',jobs:50,st:'b',st_t:'Қурилишда',tel:'Хожиакбар (98) 366 77 27 97 41'},
+{lot:'13',name:'Фуқаро GAIPOV DILMUROD ABDUKAXXAROVICH',area:0.75,sector:'manufacturing',tarmoq:'Сақлаш хизматлари',act:'Омборхона фаолиятини ташкил этиш',budget:187,exp:0,inv:10000,deadline:'2026-06',jobs:20,st:'b',st_t:'Қурилишда',tel:'Дилмурод 90-905-00-97 Хожимуро'},
+{lot:'14',name:'FIKSAT PLAST МЧЖ',area:1.24,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Полителин труба ва фитинг ҳамда томчилатиб суқориш',budget:3075,exp:0,inv:22000,deadline:'2026-09',jobs:30,st:'b',st_t:'Қурилишда',tel:'Мирзохид ака (97) 409-71-17 99'},
+{lot:'15',name:'STEEL ALLOY COMPONENT МЧЖ',area:1.0,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Метал маҳсулотларини қайта ишлаб чиқариш',budget:8530,exp:0,inv:30000,deadline:'2026-06',jobs:200,st:'b',st_t:'Қурилишда',tel:'(94) 658-77-17 Боходир'},
+{lot:'16',name:'MIMAR GROUPМЧЖ',area:9.4,sector:'logistics',tarmoq:'Логистика ва хизмат кўрсатиш',act:'Ишлаб чиқариш объектларини қуриш',budget:0,exp:0,inv:372400,deadline:'2026-06',jobs:60,st:'p',st_t:'1-босқич ишга тушган',tel:'Нодир 99-020-02-00 +998 94 629'},
+{lot:'24',name:'KARVON INDUSTRIAL TRADE МЧЖ',area:0.63,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Алюкобонд ишлаб чиқаришни ташкил этиш',budget:682,exp:0,inv:10000,deadline:'2025-09',jobs:30,st:'w',st_t:'Ишга тушган',tel:'Асомиддин 99-710-88-00 Шамсидд'},
+{lot:'28',name:'TECHNOPLASTIC МЧЖ',area:0.7,sector:'manufacturing',tarmoq:'Бошқа саноат тармоқлари',act:'Полимер ҳомашёсини ишлаб чиқариш',budget:2775,exp:1000,inv:20000,deadline:'2025-12',jobs:30,st:'w',st_t:'Ишга тушган',tel:'Гулрух (99) 873 80 00'},
+{lot:'29',name:'EL-EZOZ BISKVIT МЧЖ',area:0.7,sector:'food',tarmoq:'Озиқ-овқат',act:'Қандолат маҳсулот ишлаб чиқариш',budget:486,exp:0,inv:15000,deadline:'2026-06',jobs:40,st:'b',st_t:'Қурилишда',tel:'Отабек 97 733 36 06 90-902-36-'},
+{lot:'30',name:'Фуқаро MAXAMADALIYEV XOJIAKBAR ZUKURILLOYEVIC',area:1.2,sector:'food',tarmoq:'Озиқ-овқат',act:'Қандолат маҳсулот ишлаб чиқариш',budget:20192,exp:0,inv:55000,deadline:'31.12.2',jobs:120,st:'w',st_t:'Ишга тушган',tel:'Хожиакбар (77) 097 77 77 93 37'},
+{lot:'31',name:'BCC UNITED TEAM МЧЖ',area:0.84,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Омборхона ташкил этиш',budget:3818,exp:0,inv:22500,deadline:'2025-06',jobs:50,st:'w',st_t:'Ишга тушган',tel:'Бобур 95 105 39 90 Собир 98-11'},
+{lot:'32',name:'PLADIS MAX МЧЖ',area:0.6,sector:'food',tarmoq:'Озиқ-овқат',act:'Қандолат маҳсулот ишлаб чиқариш',budget:6918,exp:0,inv:25000,deadline:'2026-06',jobs:50,st:'b',st_t:'Қурилишда',tel:'Отабек 97 733 36 06 90-902-36-'},
+{lot:'33',name:'RELAX TEX МЧЖ',area:0.6,sector:'food',tarmoq:'Озиқ-овқат',act:'Қандолат маҳсулот ишлаб чиқариш',budget:8456,exp:0,inv:20000,deadline:'2026-06',jobs:30,st:'b',st_t:'Қурилишда',tel:'Шухрат (90) 805 12 98'},
+{lot:'34',name:'YOUNUS LTD МЧЖ',area:1.43,sector:'food',tarmoq:'Озиқ-овқат',act:'Мева-сабзавотларни қуритиш ва омборхона хизматини ',budget:52,exp:0,inv:25000,deadline:'2026-08',jobs:20,st:'b',st_t:'Қурилишда',tel:'Бобур (90) 808-71-53 Сардор 98'},
+{lot:'37',name:'PREMIER INDUSTRIES МЧЖ',area:2.5,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Сантехника маҳсулотларини ишлаб чиқариш',budget:27993,exp:500,inv:198000,deadline:'2026-08',jobs:100,st:'b',st_t:'Қурилишда',tel:'Мирафзал (97) 705-66-65 Отабек'},
+{lot:'38',name:'VERA MODERN ELECTRICAL МЧЖ SALID CABLE МЧЖ',area:2.5,sector:'electrical',tarmoq:'Электр техника',act:'Кабель маҳсулотини ишлаб чиқариш',budget:26531,exp:5000,inv:80000,deadline:'2024-12',jobs:50,st:'w',st_t:'Ишга тушган',tel:'Гулрух (99) 873 80 00'},
+{lot:'39',name:'Фуқаро ALIYEV SAMARIDDIN SUXROBOVICH',area:1.25,sector:'electrical',tarmoq:'Электр техника',act:'Автоуловларга эхтиёт қисмлари ҳамда аксессуарлар и',budget:9993,exp:0,inv:30000,deadline:'2026-09',jobs:80,st:'b',st_t:'Қурилишда',tel:'Самариддин (98) 308-58-18'},
+{lot:'42',name:'MSI UNION TRADE МЧЖ',area:1.25,sector:'logistics',tarmoq:'Логистика ва хизмат кўрсатиш',act:'Мева-сабзавотларни музлатгичда сақлаш фаолиятини т',budget:56,exp:0,inv:30000,deadline:'2026-10',jobs:25,st:'b',st_t:'Қурилишда',tel:'Саодат (97) 462-63-07 Мухаммад'},
+{lot:'43',name:'IRON STEEL CORP МЧЖ (MAXCOPPER МЧЖ)',area:3.3,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Мис труба ишлаб чиқариш фаолиятини ташкил этиш',budget:16912,exp:2000,inv:330000,deadline:'2026-06',jobs:150,st:'b',st_t:'Қурилишда',tel:'Бахром 93-519-08-92 Азиз (90) '},
+{lot:'45',name:'OPTIMAL KIMYO МЧЖ',area:5.9,sector:'logistics',tarmoq:'Логистика ва хизмат кўрсатиш',act:'Логистика фаолиятини ташкил этиш',budget:11475,exp:0,inv:200000,deadline:'2025-09',jobs:100,st:'p',st_t:'1-босқич ишга тушган',tel:'Аслиддин (93) 500-39-79 Улуғбе'},
+{lot:'47',name:'Фуқаро RAXIMOV OLIMJON SOBIR O‘G‘LI ELMAX HOM',area:0.6,sector:'manufacturing',tarmoq:'Бошқа саноат тармоқлари',act:'Дазмоллаш ва кир куритиш мосламаларини ишлаб чиқар',budget:1500,exp:0,inv:20000,deadline:'2026-09',jobs:50,st:'b',st_t:'Қурилишда',tel:'Азиз (93) 500 03 30'},
+{lot:'49',name:'Фуқаро YUSUPOV INOMIDDIN ABDULXAFIZOVICH',area:0.53,sector:'food',tarmoq:'Озиқ-овқат',act:'Қандолат маҳсулот ишлаб чиқариш',budget:870,exp:0,inv:20000,deadline:'2026-08',jobs:50,st:'b',st_t:'Қурилишда',tel:'Иномиддин (97) 445 53 00'},
+{lot:'51',name:'QURILISH-MILLIY SIFAT МЧЖ UNIONCONSTRUCTION М',area:0.25,sector:'textile',tarmoq:'Текстиль ва тўқимачилик',act:'Текстиль маҳсулотларини ишлаб чиқариш',budget:692,exp:0,inv:20000,deadline:'2026-08',jobs:50,st:'b',st_t:'Қурилишда',tel:'Анвар 99 675 14 48 Абдурашид 9'},
+{lot:'52',name:'Фуқаро MIRTO‘LAGANOV IBROHIM MUROD O‘G‘LI',area:0.25,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Декоратив пластик махсулотлари ишлаб чиқариш',budget:2192,exp:0,inv:15000,deadline:'2026-05',jobs:30,st:'b',st_t:'Қурилишда',tel:'Мурод (90) 998 13 31 Иброхим ('},
+{lot:'53',name:'GLOBAL MED FARM МЧЖ',area:0.25,sector:'manufacturing',tarmoq:'Сақлаш хизматлари',act:'Фармасевтика маҳсулотларини сақлаш омборхонасини т',budget:38,exp:0,inv:5000,deadline:'2026-06',jobs:10,st:'b',st_t:'Қурилишда',tel:'Аброр (99) 422 22 29'},
+{lot:'54',name:'STANDARD RESOLUTENESS МЧЖ',area:0.25,sector:'construction',tarmoq:'Қурилиш материаллари',act:'Декоратив пластик махсулотлари ишлаб чиқариш',budget:4996,exp:0,inv:6500,deadline:'30.06.2',jobs:15,st:'w',st_t:'Ишга тушган',tel:'Улуғбек 98-115-10-90 Қудрат (9'},
+{lot:'56',name:'UNI RIVER TRADE МЧЖ',area:0.5,sector:'manufacturing',tarmoq:'Бошқа саноат тармоқлари',act:'Полипропилен ва полиэтилен қоп махсулотлари ишлаб ',budget:7461,exp:200,inv:20000,deadline:'2026-05',jobs:60,st:'b',st_t:'Қурилишда',tel:'Шухрат (90) 805 12 98'},
+{lot:'57',name:'MILLENNIUM HOME MAX МЧЖ',area:0.25,sector:'manufacturing',tarmoq:'Бошқа саноат тармоқлари',act:'Металдан маиший буюмлар ишлаб чиқариш',budget:4688,exp:1000,inv:15000,deadline:'2025-09',jobs:50,st:'w',st_t:'Ишга тушган',tel:'(90) 953-00-76 Бахтиёр'},
+{lot:'60',name:'KUKMARA МЧЖ',area:0.4,sector:'manufacturing',tarmoq:'Бошқа саноат тармоқлари',act:'Ошхона анжомларини сақлаш омборхонасини ташкил эти',budget:692,exp:500,inv:15000,deadline:'2024-03',jobs:30,st:'w',st_t:'Ишга тушган',tel:'Рустам (98) 200-00-39 Жахонгир'},
+{lot:'1a',name:'YOUNUS LTD МЧЖ',area:0.12,sector:'manufacturing',tarmoq:'Сақлаш хизматлари',act:'Омборхона фаолиятини ташкил этиш',budget:16,exp:200,inv:5000,deadline:'2026-12',jobs:20,st:'b',st_t:'Қурилишда',tel:'Бобур (90) 808-71-53 Сардор 98'},
+{lot:'1b',name:'ILM-ZIYO ОК',area:0.17,sector:'logistics',tarmoq:'Логистика ва хизмат кўрсатиш',act:'Нашириёт хизмати ташкил этиш',budget:248,exp:0,inv:10000,deadline:'2026-09',jobs:20,st:'b',st_t:'Қурилишда',tel:'Вохид (90) 977 57 97'},
+{lot:'Лот 66',name:'“ALVIERO” МЧЖ',area:1.3,sector:'manufacturing',tarmoq:'кимё саноати',act:'Хушбўй атир совуни ва маиший ювиш воситалари ишлаб',budget:18300,exp:0,inv:75000,deadline:'2026-12',jobs:100,st:'b',st_t:'Қурилишда',tel:''},
+{lot:'МПЗ Лот 3',name:'DANIM TEKSTIL GOLD МЧЖ',area:0.1,sector:'logistics',tarmoq:'Логистика ва хизмат кўрсатиш',act:'Омборхона',budget:0,exp:0,inv:5000,deadline:'2026-02',jobs:10,st:'w',st_t:'Ишга тушган',tel:'+99890 371 8486 Даврон +99890 '},
+{lot:'МПЗ Лот 4',name:'MALIKA ZIYO SERVIS МЧЖ',area:0.1,sector:'logistics',tarmoq:'Логистика ва хизмат кўрсатиш',act:'Савдо ва маиший хизмат кўрсатиш',budget:52,exp:0,inv:10000,deadline:'2026-06',jobs:8,st:'b',st_t:'Қурилишда',tel:'Нарзулла (93) 581 75 81  Козим'},
+{lot:'МПЗ Лот 6',name:'YUL ZAR TEXNO МЧЖ',area:0.1,sector:'manufacturing',tarmoq:'Меҳмонхона хизмати',act:'Меҳмонхона фаолиятини ташкил этиш',budget:420,exp:0,inv:10000,deadline:'2026-07',jobs:10,st:'b',st_t:'Қурилишда',tel:'Аziz aka 99 411 99 91 Хасан 94'},
+{lot:'МПЗ Лот 7',name:'DANIM TEKSTIL GOLD МЧЖ',area:0.1,sector:'manufacturing',tarmoq:'Мебель саноати',act:'Ошхона мебеллари ишлаб чиқариш',budget:1692,exp:0,inv:15000,deadline:'2026-02',jobs:10,st:'w',st_t:'Ишга тушган',tel:'+99890 371 8486 Даврон +99890 '},
+{lot:'МПЗ Лот-1',name:'Фуқаро KODIRJONOV NOSIRJON MARIPJON O‘G‘LI',area:0.1,sector:'textile',tarmoq:'Текстиль ва тўқимачилик',act:'Пойафзал учун таглик ишлаб чиқариш',budget:869,exp:0,inv:17000,deadline:'2026-08',jobs:30,st:'b',st_t:'Қурилишда',tel:'Носир (99) 720 00 07 97-997-99'},
+{lot:'МПЗ Лот-2, Лот-5',name:'SAXIY DUNYO МЧЖ',area:0.2,sector:'textile',tarmoq:'Текстиль ва тўқимачилик',act:'Текстиль маҳсулотларини чиқариш ва омборхона',budget:142,exp:0,inv:10000,deadline:'2026-08',jobs:20,st:'b',st_t:'Қурилишда',tel:'Алишер (97) 777 91 95'}];
+const i18n={uz:{s_ta:"ta",ticker_title:"Texnoparkdagi kompaniyalar",m_home:"Bosh sahifa",m_dir:"Yoʻnalishlar",m_news:"Yangiliklar",m_map:"Xarita",m_about:"Biz haqimizda",m_contacts:"Aloqa",transformation:"Oʻzgarish",before:"Oldin",now:"Hozir",s_lots:"Tadbirkorlar",s_workers:"Ishchilar",s_export:"Eksport",s_hectares:"Gektar",d_log:"Logistika",d_food:"Oziq-ovqat",d_man:"Boshqa sanoat tarmoqlari",d_con:"Qurilish materiallari",d_tex:"Tekstil va toʻqimachilik",d_elec:"Elektrotexnika",about_p1:"Yangihayot industrial texnoparki — Toshkent shahridagi yetakchi sanoat klasteri.",about_history:"Tarix",about_p2:"Texnopark Oʻzbekiston Respublikasi Prezidentining qarori bilan tashkil etilgan.",about_decisions:"Prezident qarorlari",about_p3:"Texnopark faoliyati prezident qarorlari asosida tartibga solinadi.",pos_dir:"Bosh direktor",pos_dep:"Direktor oʻrinbosari",pos_inv:"Investorlar bilan ishlash boʻlimi",map_hint:"Lot raqamini bosing",f_lot:"Lot №",f_area:"Yer maydoni",f_sector:"Yoʻnalish",f_act:"Faoliyat turi",f_budget:"Byudjet tushumlari",f_exp:"Eksport",f_inv:"Loyiha qiymati",f_deadline:"Amalga oshirish muddati",f_jobs:"Yangi ish oʻrinlari",f_status:"Holati",f_tel:"Telefon"},ru:{s_ta:"шт",ticker_title:"Компании технопарка",m_home:"Главная",m_dir:"Направления",m_news:"Новости",m_map:"Карта",m_about:"О нас",m_contacts:"Контакты",transformation:"Трансформация",before:"Раньше",now:"Сейчас",s_lots:"Предпринимателей",s_workers:"Рабочих",s_export:"Экспорт",s_hectares:"Гектар",d_log:"Логистика",d_food:"Пищевая",d_man:"Другие отрасли",d_con:"Стройматериалы",d_tex:"Текстиль и швейная",d_elec:"Электротехника",about_p1:"Индустриальный технопарк Янгихаёт — ведущий промышленный кластер Ташкента.",about_history:"История",about_p2:"Технопарк создан указом Президента Республики Узбекистан.",about_decisions:"Решения Президента",about_p3:"Деятельность технопарка регулируется указами Президента.",pos_dir:"Генеральный директор",pos_dep:"Заместитель директора",pos_inv:"Отдел по работе с инвесторами",map_hint:"Нажмите на номер лота",f_lot:"Лот №",f_area:"Площадь",f_sector:"Направление",f_act:"Вид деятельности",f_budget:"Бюджет",f_exp:"Экспорт",f_inv:"Стоимость проекта",f_deadline:"Срок реализации",f_jobs:"Новые рабочие места",f_status:"Статус",f_tel:"Телефон"},en:{s_ta:"",ticker_title:"Companies in Technopark",m_home:"Home",m_dir:"Directions",m_news:"News",m_map:"Map",m_about:"About",m_contacts:"Contact",transformation:"Transformation",before:"Before",now:"Now",s_lots:"Entrepreneurs",s_workers:"Workers",s_export:"Export",s_hectares:"Hectares",d_log:"Logistics",d_food:"Food",d_man:"Other industries",d_con:"Construction materials",d_tex:"Textile & apparel",d_elec:"Electrical",about_p1:"Yangihayot industrial technopark — Tashkent's leading industrial cluster.",about_history:"History",about_p2:"The technopark was established by decree of the President of Uzbekistan.",about_decisions:"Presidential decisions",about_p3:"The technopark's activities are regulated by presidential decrees.",pos_dir:"General Director",pos_dep:"Deputy Director",pos_inv:"Investor Relations",map_hint:"Click a lot number",f_lot:"Lot #",f_area:"Area",f_sector:"Sector",f_act:"Activity",f_budget:"Budget",f_exp:"Export",f_inv:"Project cost",f_deadline:"Deadline",f_jobs:"New jobs",f_status:"Status",f_tel:"Phone"},zh:{s_ta:"家",ticker_title:"技术园区企业",m_home:"主页",m_dir:"方向",m_news:"新闻",m_map:"地图",m_about:"关于我们",m_contacts:"联系",transformation:"变革",before:"之前",now:"现在",s_lots:"企业家",s_workers:"工人",s_export:"出口",s_hectares:"公顷",d_log:"物流",d_food:"食品",d_man:"其他行业",d_con:"建筑材料",d_tex:"纺织服装",d_elec:"电气",about_p1:"扬吉海约工业技术园——塔什干领先的工业集群。",about_history:"历史",about_p2:"该技术园是根据乌兹别克斯坦总统令设立的。",about_decisions:"总统决定",about_p3:"技术园的活动由总统令规范。",pos_dir:"总经理",pos_dep:"副总经理",pos_inv:"投资者关系",map_hint:"点击地块编号",f_lot:"地块",f_area:"面积",f_sector:"方向",f_act:"活动类型",f_budget:"预算",f_exp:"出口",f_inv:"项目价值",f_deadline:"截止日期",f_jobs:"新岗位",f_status:"状态",f_tel:"电话"}};
 
-const sectorImages = {manufacturing:'./images/05.png',textile:'./images/06.png',electrical:'./images/07.png',food:'./images/08.png',metal:'./images/promzona_oshiy_vid_1.jpg',construction:'./images/promzona_oshiy_vid_2.jpg'};
+let currentLang='uz';
+const typingWords={uz:["Sanoat texnoparki","46 ta korxona","3 ming+ ish oʻrni","76 gektar maydon"],ru:["Индустриальный технопарк","46 предприятий","3 тысяч+ рабочих мест","76 гектаров"],en:["Industrial Technopark","46 Companies","3000+ Jobs","76 hectares"],zh:["工业技术园","46家企业","30万+工作岗位","76公顷"]};
+let wordIdx=0,charIdx=0,deleting=false;
 
-const projects = {
-  manufacturing:[{c:'"KUKMARA" МЧЖ',p:'Kitchen equipment',w:691,e:15000},{c:'"AUTOMOTIVE" МЧЖ',p:'Auto parts',w:3400,e:165000},{c:'"MACHINERY CO" МЧЖ',p:'Equipment',w:2800,e:135000}],
-  textile:[{c:'"TEXNOMIR" МЧЖ',p:'Fabrics',w:8000,e:150000},{c:'"TEXTILE WORLD" МЧЖ',p:'Textiles',w:4200,e:110000}],
-  electrical:[{c:'"VERA ELECTRICAL" МЧЖ',p:'Cables',w:16912,e:80000},{c:'"ACCORD-VISION" МЧЖ',p:'Electronics',w:29606,e:264000}],
-  food:[{c:'"ALMERRO GROUP" МЧЖ',p:'Confectionery',w:24937,e:100000},{c:'"BEVERAGE CO" МЧЖ',p:'Beverages',w:2200,e:140000}],
-  metal:[{c:'"IRON STEEL CORP" МЧЖ',p:'Metallurgy',w:16912,e:330000},{c:'"STEEL WORKS" МЧЖ',p:'Structures',w:5000,e:180000}],
-  construction:[{c:'"MIMAR GROUP" МЧЖ',p:'Materials',w:0,e:372400},{c:'"CEMENT WORKS" МЧЖ',p:'Cement',w:2100,e:125000}]
-};
+function typeEffect(){
+  const words=typingWords[currentLang]||typingWords.uz;
+  const el=document.getElementById('typingText');
+  if(!el)return;
+  const word=words[wordIdx%words.length];
+  if(!deleting){el.textContent=word.substring(0,++charIdx);if(charIdx===word.length){deleting=true;setTimeout(typeEffect,2000);return;}}
+  else{el.textContent=word.substring(0,--charIdx);if(charIdx===0){deleting=false;wordIdx++;}}
+  setTimeout(typeEffect,deleting?50:90);
+}
 
-let lang='uz', sector='manufacturing';
+function animateCount(id,target,pre='',suf=''){
+  const el=document.getElementById(id);if(!el)return;
+  let cur=0;const step=target/50;
+  const t=setInterval(()=>{cur+=step;if(cur>=target){el.textContent=pre+target+suf;clearInterval(t);}else{el.textContent=pre+Math.floor(cur)+suf;}},30);
+}
 
 function setLang(l){
-  lang=l;
-  document.querySelectorAll('.lang-btn').forEach(b=>{
-    if(b.dataset.lang===l){b.className='lang-btn px-3 py-1 text-sm font-bold rounded bg-emerald-500 text-white';}
-    else{b.className='lang-btn px-3 py-1 text-sm font-bold rounded bg-slate-200 text-slate-800';}
-  });
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const k=el.dataset.i18n; if(i18n[l][k]) el.textContent=i18n[l][k];
-  });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
-    const k=el.dataset.i18nPh; if(i18n[l][k]) el.placeholder=i18n[l][k];
-  });
-  if(!document.getElementById('page-sector').classList.contains('hidden')) renderProjects();
-}
-
-function showTab(t){
-  document.querySelectorAll('.tab-btn').forEach(b=>{
-    if(b.dataset.tab===t){b.classList.add('text-emerald-600','border-emerald-600');b.classList.remove('text-slate-600','border-transparent');}
-    else{b.classList.remove('text-emerald-600','border-emerald-600');b.classList.add('text-slate-600','border-transparent');}
-  });
-  if(t==='info'){
-    document.getElementById('page-info').classList.remove('hidden');
-    document.getElementById('page-sector').classList.add('hidden');
-  }else{
-    sector=t;
-    document.getElementById('page-info').classList.add('hidden');
-    document.getElementById('page-sector').classList.remove('hidden');
-    document.getElementById('sectorImg').src=sectorImages[t]||'';
-    document.getElementById('sectorTitle').textContent=i18n[lang]['tab_'+t].replace(/^[^ ]+ /,'');
-    renderProjects();
+  currentLang=l;wordIdx=0;charIdx=0;deleting=false;
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.dataset.i18n;if(i18n[l]&&i18n[l][k])el.textContent=i18n[l][k]});
+  document.getElementById('langMenu').classList.remove('open');
+  localStorage.setItem('lang',l);
+  var dt=document.getElementById('dir_total');
+  if(dt){var jami=l==='ru'?'Всего':l==='en'?'Total':l==='zh'?'共计':'Jami';var ta_w=l==='ru'?' предприятий':l==='en'?' companies':l==='zh'?'家企业':' ta korxona';dt.innerHTML=jami+': <strong>46</strong>'+ta_w;}
+  var hp=document.getElementById('page-home');
+  if(hp && !hp.classList.contains('hidden')){
+    var suf2=l==='uz'?' ming+':l==='ru'?' тысяч+':l==='zh'?' 千+':' thousand+';
+    var suf4=l==='uz'?' ga':l==='ru'?' га':l==='zh'?' 公顿':' ha';
+    setTimeout(function(){animateCount('cnt1',46);animateCount('cnt2',3,'',suf2);animateCount('cnt3',2.6,'$','M');animateCount('cnt4',76,'',suf4);},100);
   }
 }
+function toggleLang(){document.getElementById('langMenu').classList.toggle('open')}
+function toggleTheme(){document.documentElement.classList.toggle('dark');localStorage.setItem('theme',document.documentElement.classList.contains('dark')?'dark':'light')}
+function toggleSearch(){const sb=document.getElementById('searchBar');sb.classList.toggle('hidden');if(!sb.classList.contains('hidden'))document.getElementById('searchInput').focus()}
+function toggleMobile(){document.getElementById('mobileMenu').classList.toggle('hidden')}
 
-function renderProjects(){
-  const s=document.getElementById('search').value.toLowerCase();
-  const sort=document.getElementById('sort').value;
-  let list=(projects[sector]||[]).filter(p=>p.c.toLowerCase().includes(s));
-  if(sort==='export')list.sort((a,b)=>b.e-a.e);
-  else if(sort==='workers')list.sort((a,b)=>b.w-a.w);
-  else list.sort((a,b)=>a.c.localeCompare(b.c));
-  document.getElementById('grid').innerHTML=list.map(p=>`<div class="bg-white rounded-lg shadow-md hover:shadow-xl p-6 border border-slate-200"><h3 class="font-bold text-emerald-900 mb-2">${p.c}</h3><p class="text-sm text-slate-600 mb-4">${p.p}</p><div class="space-y-2 text-sm"><div class="flex justify-between"><span>👥</span><span>${p.w.toLocaleString()}</span></div><div class="flex justify-between"><span>📈</span><span class="text-emerald-600">$${(p.e/1000).toFixed(0)}K</span></div></div></div>`).join('');
+function showPage(p){
+  document.querySelectorAll('.page').forEach(el=>el.classList.add('hidden'));
+  const pg=document.getElementById('page-'+p);
+  if(pg){pg.classList.remove('hidden');pg.classList.add('fade');setTimeout(()=>pg.classList.remove('fade'),500)}
+  document.querySelectorAll('.nav-link').forEach(b=>{b.classList.toggle('text-emerald-600',b.dataset.page===p);b.classList.toggle('font-extrabold',b.dataset.page===p)});
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(p==='home'){setTimeout(()=>{animateCount('cnt1',46);animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'\u0024','M');animateCount('cnt4',76,'',' ga')},400)}
+  if(p==='map')renderLotButtons();
+  if(p==='directions'){filterSector('all');var dt=document.getElementById('dir_total');if(dt){var l=currentLang;var ta_w=l==='ru'?' предприятий':l==='en'?' companies':l==='zh'?'家企业':' ta korxona';dt.innerHTML='Jami: <strong>46</strong>'+ta_w;}}
 }
 
-function openModal(src){document.getElementById('modalImg').src=src;document.getElementById('modal').classList.add('active');}
-function closeModal(){document.getElementById('modal').classList.remove('active');}
+function stColor(st){return st==='w'?'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300':st==='p'?'bg-blue-100 text-blue-800':'bg-yellow-100 text-yellow-800'}
+function stText(st,l){const t=i18n[l||currentLang];return st==='w'?(t.f_status_w||'Ishga tushgan'):st==='p'?'1-bosqich ishga tushgan':'Qurilishda'}
 
-setLang('uz');
+function companyCard(c){
+  const t=i18n[currentLang];
+  return `<div class="bg-white dark:bg-slate-800 rounded-xl shadow hover:shadow-xl transition-all cursor-pointer border border-slate-100 dark:border-slate-700" onclick="showCompany('${c.lot}')">
+    <div class="p-4">
+      <div class="flex justify-between items-start mb-2">
+        <span class="text-xs bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-1 rounded font-bold">${t.f_lot} ${c.lot}</span>
+        <span class="text-xs px-2 py-1 rounded-full font-semibold ${stColor(c.st)}">${stText(c.st)}</span>
+      </div>
+      <h4 class="font-bold text-sm text-emerald-900 dark:text-emerald-300 mb-1">${c.name}</h4>
+      <p class="text-xs text-slate-500 mb-3">${c.act}</p>
+      <div class="grid grid-cols-3 gap-1 text-xs">
+        <div class="bg-slate-50 dark:bg-slate-700 rounded p-1 text-center"><div class="font-bold">${c.area} ga</div><div class="text-slate-400">Maydon</div></div>
+        <div class="bg-slate-50 dark:bg-slate-700 rounded p-1 text-center"><div class="font-bold">${c.jobs}</div><div class="text-slate-400">Ish</div></div>
+        <div class="bg-emerald-50 dark:bg-emerald-900 rounded p-1 text-center"><div class="font-bold text-emerald-700 dark:text-emerald-300">${c.exp>0?'$'+c.exp+'K':'-'}</div><div class="text-slate-400">Eksport</div></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function filterSector(s){
+  var grid=document.getElementById('companiesGrid');
+  if(s==='all'){grid.classList.add('hidden');grid.innerHTML='';return;}
+  var list=companies.filter(function(c){return c.sector===s;});
+  grid.innerHTML=list.map(function(c){return companyCard(c);}).join('');
+  grid.classList.remove('hidden');
+}
+function showCompany(lot){
+  const c=companies.find(x=>x.lot===lot);
+  if(!c)return;
+  const t=i18n[currentLang];
+  document.getElementById('cm_lot').textContent=t.f_lot+' '+c.lot;
+  document.getElementById('cm_name').textContent=c.name;
+  const rows=[
+    [t.f_area, c.area+' ga'],
+    [t.f_sector, c.tarmoq],
+    [t.f_act, c.act],
+    [t.f_budget, c.budget>0?c.budget.toLocaleString()+' mln soʻm':'-'],
+    [t.f_exp, c.exp>0?'$'+c.exp+' ming':'-'],
+    [t.f_inv, c.inv>0?c.inv.toLocaleString()+' mln soʻm':'-'],
+    [t.f_deadline, c.deadline||'-'],
+    [t.f_jobs, c.jobs||'-'],
+    [t.f_status, stText(c.st)],
+    [t.f_tel, c.tel||'-']
+  ];
+  document.getElementById('cm_body').innerHTML=rows.map(([k,v])=>`<div class="flex gap-2 text-sm"><span class="text-slate-400 w-32 flex-shrink-0">${k}:</span><span class="font-medium">${v}</span></div>`).join('');
+  // Slider rasmlar
+var lotKey = lot.replace('/','_').replace(' ','_');
+var img1 = './images/companies/lot_' + lotKey + '_1.png';
+var img2 = './images/companies/lot_' + lotKey + '_2.png';
+var slider = document.getElementById('cm_slider');
+var i1 = document.getElementById('cm_img1');
+var i2 = document.getElementById('cm_img2');
+i1.src = img1; i2.src = img2;
+window._sliderIdx = 0;
+i1.style.opacity='1'; i2.style.opacity='0';
+document.getElementById('dot1').style.opacity='1';
+document.getElementById('dot2').style.opacity='0.4';
+// Rasm borligini tekshir
+var testImg = new Image();
+testImg.onload = function(){ slider.classList.remove('hidden'); };
+testImg.onerror = function(){ slider.classList.add('hidden'); };
+testImg.src = img1;
+document.getElementById('companyModal').classList.remove('hidden');
+  document.getElementById('companyModal').classList.add('flex');
+}
+
+function sliderNext(){
+  var i1=document.getElementById('cm_img1'),i2=document.getElementById('cm_img2');
+  var d1=document.getElementById('dot1'),d2=document.getElementById('dot2');
+  if(window._sliderIdx===0){i1.style.opacity='0';i2.style.opacity='1';d1.style.opacity='0.4';d2.style.opacity='1';window._sliderIdx=1;}
+  else{i1.style.opacity='1';i2.style.opacity='0';d1.style.opacity='1';d2.style.opacity='0.4';window._sliderIdx=0;}
+}
+function sliderPrev(){ sliderNext(); }
+document.addEventListener('keydown', function(e){
+  var modal = document.getElementById('companyModal');
+  if(modal && !modal.classList.contains('hidden')){
+    if(e.key === 'ArrowRight') sliderNext();
+    if(e.key === 'ArrowLeft') sliderPrev();
+    if(e.key === 'Escape') closeCompanyModal();
+  }
+});
+function sliderGo(idx){
+  var i1=document.getElementById('cm_img1'),i2=document.getElementById('cm_img2');
+  var d1=document.getElementById('dot1'),d2=document.getElementById('dot2');
+  if(idx===0){i1.style.opacity='1';i2.style.opacity='0';d1.style.opacity='1';d2.style.opacity='0.4';}
+  else{i1.style.opacity='0';i2.style.opacity='1';d1.style.opacity='0.4';d2.style.opacity='1';}
+  window._sliderIdx=idx;
+}
+function closeCompanyModal(){
+  document.getElementById('companyModal').classList.add('hidden');
+  document.getElementById('companyModal').classList.remove('flex');
+}
+
+function renderLotButtons(){
+  const div=document.getElementById('lotButtons');
+  div.innerHTML=companies.map(c=>`<button onclick="selectLot('${c.lot}')" class="px-2 py-1 text-xs rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-emerald-500 hover:text-white transition-all font-bold">${c.lot}</button>`).join('');
+}
+
+function selectLot(lot){
+  const c=companies.find(x=>x.lot===lot);
+  if(!c)return;
+  const t=i18n[currentLang];
+  document.getElementById('mapEmpty').classList.add('hidden');
+  document.getElementById('mapCompanyInfo').classList.remove('hidden');
+  document.getElementById('mci_name').textContent=`Лот ${c.lot} — ${c.name}`;
+  const rows=[
+    [t.f_area, c.area+' ga'],
+    [t.f_act, c.act],
+    [t.f_jobs, c.jobs+'  '+t.f_jobs],
+    [t.f_exp, c.exp>0?'$'+c.exp+'K':'-'],
+    [t.f_status, stText(c.st)],
+    [t.f_tel, c.tel||'-']
+  ];
+  document.getElementById('mci_body').innerHTML=rows.map(([k,v])=>`<div class="flex gap-2 text-sm"><span class="text-slate-400 w-24 flex-shrink-0">${k}:</span><span class="font-medium">${v}</span></div>`).join('');
+  document.querySelectorAll('#lotButtons button').forEach(b=>b.classList.toggle('bg-emerald-500',b.textContent===lot));
+}
+
+function handleMapClick(e){
+  const rect=e.target.getBoundingClientRect();
+  const x=(e.clientX-rect.left)/rect.width;
+  const y=(e.clientY-rect.top)/rect.height;
+  // Approximate lot positions (normalized 0-1 coordinates)
+  const lotPositions={
+    '2':[0.43,0.14],'3':[0.27,0.14],'5':[0.35,0.10],'6':[0.20,0.15],'7':[0.42,0.07],
+    '8':[0.32,0.35],'9':[0.56,0.27],'10':[0.54,0.40],'11':[0.55,0.37],'12':[0.57,0.33],
+    '13':[0.61,0.24],'14':[0.66,0.23],'15':[0.62,0.32],'16':[0.70,0.20],'24':[0.86,0.17],
+    '28':[0.79,0.32],'29':[0.81,0.37],'30':[0.68,0.31],'31':[0.74,0.39],'32':[0.85,0.38],
+    '33':[0.81,0.42],'34':[0.87,0.42],'37':[0.60,0.43],'38':[0.64,0.39],'39':[0.68,0.47],
+    '42':[0.74,0.46],'43':[0.70,0.52],'45':[0.76,0.56],'47':[0.52,0.47],'49':[0.55,0.51],
+    '51':[0.57,0.55],'52':[0.57,0.57],'53':[0.59,0.58],'54':[0.60,0.61],'56':[0.62,0.65],
+    '57':[0.63,0.68],'60':[0.76,0.72],'1a':[0.08,0.18],'1b':[0.08,0.20]
+  };
+  let closest=null,minDist=0.05;
+  for(const[lot,[lx,ly]] of Object.entries(lotPositions)){
+    const d=Math.sqrt((x-lx)**2+(y-ly)**2);
+    if(d<minDist){minDist=d;closest=lot;}
+  }
+  if(closest)selectLot(closest);
+}
+
+function searchCompanies(q){
+  const res=document.getElementById('searchResults');
+  if(!q||q.length<2){res.classList.add('hidden');return}
+  const found=companies.filter(c=>c.name.toLowerCase().includes(q.toLowerCase())||c.lot.includes(q)||c.act.toLowerCase().includes(q.toLowerCase()));
+  res.innerHTML=found.length?found.map(c=>`<div class="px-4 py-3 text-sm hover:bg-emerald-50 dark:hover:bg-slate-600 cursor-pointer flex justify-between items-center" onclick="showCompany('${c.lot}');document.getElementById('searchBar').classList.add('hidden')"><span class="font-semibold">${c.name}</span><span class="text-slate-400 text-xs">Lot ${c.lot}</span></div>`).join(''):'<p class="text-slate-500 text-sm p-4">Topilmadi</p>';
+  res.classList.remove('hidden');
+}
+
+function openModal(src){document.getElementById('modalImg').src=src;document.getElementById('modal').classList.remove('hidden');document.getElementById('modal').classList.add('flex')}
+function closeModal(){document.getElementById('modal').classList.add('hidden');document.getElementById('modal').classList.remove('flex')}
+
+// Init
+if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');
+setLang(localStorage.getItem('lang')||'uz');
+setTimeout(typeEffect,800);
+setTimeout(()=>{animateCount('cnt1',46);animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'\u0024','M');animateCount('cnt4',76,'',' ga')},1000);
+document.addEventListener('click',e=>{
+  if(!e.target.closest('[onclick*="toggleLang"]')&&!e.target.closest('#langMenu'))document.getElementById('langMenu').classList.remove('open');
+  if(!e.target.closest('#searchBar'))document.getElementById('searchResults').classList.add('hidden');
+});
 </script>
 </body>
 </html>
