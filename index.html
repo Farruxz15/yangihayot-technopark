@@ -171,8 +171,8 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
     <div>
       <div class="relative">
         <div class="relative rounded-2xl overflow-hidden shadow-xl">
-          <img src="./images/Lot_raqamlari.png" class="w-full" id="mapImg" onclick="handleMapClick(event)" onmouseleave="document.getElementById('mapTooltip').classList.add('hidden')" style="cursor:crosshair">
-          <div id="lotMarkers" class="absolute inset-0 pointer-events-none"></div>
+          <img src="./images/Lot_raqamlari.png" class="w-full" id="mapImg" onmousemove="handleMapHover(event)" onmouseleave="document.getElementById('mapTooltip').classList.add('hidden')" onclick="handleMapClick(event)" style="cursor:pointer">
+          <div id="mapTooltip" class="hidden absolute z-30 bg-white/95 dark:bg-slate-800/95 backdrop-blur rounded-xl shadow-2xl p-3 pointer-events-none transition-all duration-150" style="width:260px;"><img id="mti_img" src="" class="w-full h-28 object-cover rounded-lg mb-2 hidden"><h4 id="mti_name" class="font-bold text-sm text-emerald-700 dark:text-emerald-400 mb-1"></h4><div id="mti_body" class="space-y-1 text-xs"></div></div>
           <div id="mapTooltip" class="hidden absolute z-30 bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-3 pointer-events-none" style="width:280px;transform:translate(-50%,-110%);">
             <img id="mti_img" src="" class="w-full h-28 object-cover rounded-lg mb-2 hidden">
             <h4 id="mti_name" class="font-bold text-sm text-emerald-700 dark:text-emerald-400 mb-1"></h4>
@@ -496,31 +496,7 @@ function closeCompanyModal(){
 }
 
 const lotPositions={'2':[0.43,0.14],'3':[0.27,0.14],'5':[0.35,0.10],'6':[0.20,0.15],'7':[0.42,0.07],'8':[0.32,0.35],'9':[0.56,0.27],'10':[0.54,0.40],'11':[0.55,0.37],'12':[0.57,0.33],'13':[0.61,0.24],'14':[0.66,0.23],'15':[0.62,0.32],'16':[0.70,0.20],'24':[0.86,0.17],'28':[0.79,0.32],'29':[0.81,0.37],'30':[0.68,0.31],'31':[0.74,0.39],'32':[0.85,0.38],'33':[0.81,0.42],'34':[0.87,0.42],'37':[0.60,0.43],'38':[0.64,0.39],'39':[0.68,0.47],'42':[0.74,0.46],'43':[0.70,0.52],'45':[0.76,0.56],'47':[0.52,0.47],'49':[0.55,0.51],'51':[0.57,0.55],'52':[0.57,0.57],'53':[0.59,0.58],'54':[0.60,0.61],'56':[0.62,0.65],'57':[0.63,0.68],'60':[0.76,0.72],'1a':[0.08,0.18],'1b':[0.08,0.20]};
-function renderLotMarkers(){var div=document.getElementById('lotMarkers');if(!div)return;div.innerHTML=Object.entries(lotPositions).map(function(e){var lot=e[0],lx=e[1][0],ly=e[1][1];if(!companies.find(function(c){return c.lot===lot;}))return '';return '<button data-lot="'+lot+'" onmouseenter="selectLot(\''+lot+'\')" onclick="selectLot(\''+lot+'\')" class="lot-marker pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 rounded-full bg-emerald-500/80 hover:bg-emerald-400 ring-2 ring-white text-white text-[9px] md:text-[10px] font-bold flex items-center justify-center shadow-md hover:scale-125 transition-all cursor-pointer" style="left:'+(lx*100)+'%;top:'+(ly*100)+'%;">'+lot+'</button>';}).join('');}
-
-function selectLot(lot){
-  var c=companies.find(function(x){return x.lot===lot;});
-  if(!c)return;
-  var t=i18n[currentLang];
-  var tip=document.getElementById('mapTooltip');
-  var btn=document.querySelector('#lotMarkers button[data-lot="'+lot+'"]');
-  if(btn&&tip){
-    tip.classList.remove('hidden');
-    tip.style.left=btn.style.left;
-    tip.style.top=btn.style.top;
-  }
-  document.getElementById('mti_name').textContent=t.f_lot+' '+c.lot+' — '+c.name;
-  var lotKey=lot.replace('/','_').replace(' ','_');
-  var imgEl=document.getElementById('mti_img');
-  var imgSrc='./images/companies/lot_'+lotKey+'_1.png';
-  var test=new Image();
-  test.onload=function(){imgEl.src=imgSrc;imgEl.classList.remove('hidden');};
-  test.onerror=function(){imgEl.classList.add('hidden');imgEl.src='';};
-  test.src=imgSrc;
-  var rows=[[t.f_area,c.area+' ga'],[t.f_act,c.act],[t.f_exp,c.exp>0?'$'+c.exp+'K':'-'],[t.f_status,c.st==='w'?'Ishga tushgan':'Qurilishda'],[t.f_tel,c.tel||'-']];
-  document.getElementById('mti_body').innerHTML=rows.map(function(x){return '<div class="flex gap-1"><span class="text-slate-400 w-20 flex-shrink-0">'+x[0]+':</span><span class="font-medium">'+x[1]+'</span></div>';}).join('');
-  document.querySelectorAll('#lotMarkers button').forEach(function(b){var on=b.dataset.lot===lot;b.classList.toggle('bg-amber-500',on);b.classList.toggle('bg-emerald-500/80',!on);b.classList.toggle('scale-125',on);});
-}
+function renderLotMarkers(){}
 
 function handleMapClick(e){
   const rect=e.target.getBoundingClientRect();
