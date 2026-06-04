@@ -168,29 +168,24 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
   <section class="max-w-7xl mx-auto px-4 py-12">
     <h1 class="text-4xl font-bold mb-4" data-i18n="m_map">Xarita</h1>
     <p class="text-slate-500 mb-6">Lot ustiga kursorni olib boring — rasm va ma'lumotlar avtomatik chiqadi</p>
-    <div class="grid lg:grid-cols-3 gap-6">
-      <div class="lg:col-span-2">
+    <div>
+      <div class="relative">
         <div class="relative rounded-2xl overflow-hidden shadow-xl">
-          <img src="./images/Lot_raqamlari.png" class="w-full" id="mapImg" onclick="handleMapClick(event)" style="cursor:crosshair">
+          <img src="./images/Lot_raqamlari.png" class="w-full" id="mapImg" onclick="handleMapClick(event)" onmouseleave="document.getElementById('mapTooltip').classList.add('hidden')" style="cursor:crosshair">
           <div id="lotMarkers" class="absolute inset-0 pointer-events-none"></div>
+          <div id="mapTooltip" class="hidden absolute z-30 bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-3 pointer-events-none" style="width:280px;transform:translate(-50%,-110%);">
+            <img id="mti_img" src="" class="w-full h-28 object-cover rounded-lg mb-2 hidden">
+            <h4 id="mti_name" class="font-bold text-sm text-emerald-700 dark:text-emerald-400 mb-1"></h4>
+            <div id="mti_body" class="space-y-1 text-xs"></div>
+            <div class="absolute left-1/2 -translate-x-1/2 -bottom-2 w-4 h-4 bg-white dark:bg-slate-800 rotate-45 shadow"></div>
+          </div>
         </div>
         <div class="mt-4 grid grid-cols-2 gap-3">
           <div class="rounded-xl overflow-hidden shadow-lg cursor-pointer" onclick="openModal('./images/promzona_oshiy_vid_2.jpg')"><img src="./images/promzona_oshiy_vid_2.jpg" class="w-full h-32 object-cover hover:scale-105 transition-transform duration-500"></div>
           <div class="rounded-xl overflow-hidden shadow-lg cursor-pointer" onclick="openModal('./images/promzona_oshiy_vid_3.jpg')"><img src="./images/promzona_oshiy_vid_3.jpg" class="w-full h-32 object-cover hover:scale-105 transition-transform duration-500"></div>
         </div>
       </div>
-      <div>
-        <div id="mapCompanyInfo" class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-5 hidden">
-          <img id="mci_img" src="" class="w-full h-40 object-cover rounded-xl mb-3 hidden">
-          <h3 id="mci_name" class="font-bold text-lg text-emerald-700 dark:text-emerald-400 mb-3"></h3>
-          <div id="mci_body" class="space-y-2 text-sm"></div>
-        </div>
-        <div id="mapEmpty" class="bg-white dark:bg-slate-800 rounded-2xl p-8 text-center text-slate-400">
-          <div class="text-4xl mb-3">📍</div>
-          <p>Lot ustiga kursorni olib boring</p>
-        </div>
-      </div>
-    </div>
+
   </section>
 </div>
 
@@ -504,29 +499,27 @@ const lotPositions={'2':[0.43,0.14],'3':[0.27,0.14],'5':[0.35,0.10],'6':[0.20,0.
 function renderLotMarkers(){var div=document.getElementById('lotMarkers');if(!div)return;div.innerHTML=Object.entries(lotPositions).map(function(e){var lot=e[0],lx=e[1][0],ly=e[1][1];if(!companies.find(function(c){return c.lot===lot;}))return '';return '<button data-lot="'+lot+'" onmouseenter="selectLot(\''+lot+'\')" onclick="selectLot(\''+lot+'\')" class="lot-marker pointer-events-auto absolute -translate-x-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 rounded-full bg-emerald-500/80 hover:bg-emerald-400 ring-2 ring-white text-white text-[9px] md:text-[10px] font-bold flex items-center justify-center shadow-md hover:scale-125 transition-all cursor-pointer" style="left:'+(lx*100)+'%;top:'+(ly*100)+'%;">'+lot+'</button>';}).join('');}
 
 function selectLot(lot){
-  const c=companies.find(x=>x.lot===lot);
+  var c=companies.find(function(x){return x.lot===lot;});
   if(!c)return;
-  const t=i18n[currentLang];
-  document.getElementById('mapEmpty').classList.add('hidden');
-  document.getElementById('mapCompanyInfo').classList.remove('hidden');
-  document.getElementById('mci_name').textContent=`Лот ${c.lot} — ${c.name}`;
+  var t=i18n[currentLang];
+  var tip=document.getElementById('mapTooltip');
+  var btn=document.querySelector('#lotMarkers button[data-lot="'+lot+'"]');
+  if(btn&&tip){
+    tip.classList.remove('hidden');
+    tip.style.left=btn.style.left;
+    tip.style.top=btn.style.top;
+  }
+  document.getElementById('mti_name').textContent=t.f_lot+' '+c.lot+' — '+c.name;
   var lotKey=lot.replace('/','_').replace(' ','_');
-  var imgEl=document.getElementById('mci_img');
+  var imgEl=document.getElementById('mti_img');
   var imgSrc='./images/companies/lot_'+lotKey+'_1.png';
   var test=new Image();
   test.onload=function(){imgEl.src=imgSrc;imgEl.classList.remove('hidden');};
   test.onerror=function(){imgEl.classList.add('hidden');imgEl.src='';};
   test.src=imgSrc;
-  const rows=[
-    [t.f_area, c.area+' ga'],
-    [t.f_act, c.act],
-    [t.f_jobs, c.jobs+'  '+t.f_jobs],
-    [t.f_exp, c.exp>0?'$'+c.exp+'K':'-'],
-    [t.f_status, stText(c.st)],
-    [t.f_tel, c.tel||'-']
-  ];
-  document.getElementById('mci_body').innerHTML=rows.map(([k,v])=>`<div class="flex gap-2 text-sm"><span class="text-slate-400 w-24 flex-shrink-0">${k}:</span><span class="font-medium">${v}</span></div>`).join('');
-  document.querySelectorAll('#lotMarkers button').forEach(b=>{var on=b.dataset.lot===lot;b.classList.toggle('bg-amber-500',on);b.classList.toggle('bg-emerald-500/80',!on);b.classList.toggle('scale-125',on);});
+  var rows=[[t.f_area,c.area+' ga'],[t.f_act,c.act],[t.f_exp,c.exp>0?'$'+c.exp+'K':'-'],[t.f_status,c.st==='w'?'Ishga tushgan':'Qurilishda'],[t.f_tel,c.tel||'-']];
+  document.getElementById('mti_body').innerHTML=rows.map(function(x){return '<div class="flex gap-1"><span class="text-slate-400 w-20 flex-shrink-0">'+x[0]+':</span><span class="font-medium">'+x[1]+'</span></div>';}).join('');
+  document.querySelectorAll('#lotMarkers button').forEach(function(b){var on=b.dataset.lot===lot;b.classList.toggle('bg-amber-500',on);b.classList.toggle('bg-emerald-500/80',!on);b.classList.toggle('scale-125',on);});
 }
 
 function handleMapClick(e){
