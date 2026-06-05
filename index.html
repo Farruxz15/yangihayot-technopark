@@ -661,11 +661,15 @@ function showPolyPanel(){
     <div style="color:#94a3b8;margin-bottom:8px;line-height:1.4">
       1. Lot tanlang ▼<br>2. Rasm ustida nuqtalarni bosing (kamida 3 ta)<br>3. Boshqa lotga oʻting<br>4. Tugagach Copy → menga yuboring
     </div>
-    <label style="display:block;margin-bottom:6px;color:#94a3b8">Faol lot:</label>
-    <select id="polyLotSelect" onchange="activePoly=this.value;renderPolygons();updatePolyPanel()" style="width:100%;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;padding:6px;margin-bottom:8px">
+    <label style="display:block;margin-bottom:6px;color:#94a3b8">Faol lot (mavjud):</label>
+    <select id="polyLotSelect" onchange="activePoly=this.value;renderPolygons();updatePolyPanel()" style="width:100%;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;padding:6px;margin-bottom:6px">
       <option value="">— tanlang —</option>
-      ${allLots.map(l=>`<option value="${l}">Lot ${l}</option>`).join('')}
+      ${allLots.map(l=>`<option value="${l}">Lot ${l}${lotPolygons[l]?' ✓':''}</option>`).join('')}
     </select>
+    <div style="display:flex;gap:6px;margin-bottom:8px">
+      <input id="polyNewLot" placeholder="Yangi lot ID (mas. MPZ, 25, 26)" style="flex:1;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;padding:6px;font-size:11px">
+      <button onclick="addNewLot()" style="background:#10b981;color:#fff;border:0;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:bold">+ Qo'sh</button>
+    </div>
     <div style="display:flex;gap:6px;margin-bottom:10px">
       <button onclick="undoPolyPoint()" style="flex:1;background:#334155;color:#fff;border:0;padding:6px;border-radius:6px;cursor:pointer">↶ Undo</button>
       <button onclick="clearActivePoly()" style="flex:1;background:#7f1d1d;color:#fff;border:0;padding:6px;border-radius:6px;cursor:pointer">🗑 Clear</button>
@@ -694,6 +698,19 @@ function copyPolyJSON(){
   ta.select(); document.execCommand('copy');
   const btn=event.target; const o=btn.textContent;
   btn.textContent='✓ Nusxalandi'; setTimeout(()=>btn.textContent=o,1500);
+}
+function addNewLot(){
+  const input=document.getElementById('polyNewLot');
+  const id=(input.value||'').trim();
+  if(!id){input.focus();return;}
+  if(!lotPolygons[id]) lotPolygons[id]=[];
+  activePoly=id;
+  // Rebuild panel so dropdown reflects new lot
+  const old=document.getElementById('polyPanel'); if(old) old.remove();
+  showPolyPanel();
+  renderPolygons();
+  updatePolyPanel();
+  input.value='';
 }
 
 // Helpers reused by polygon hover (extracted from existing handleMapHover)
