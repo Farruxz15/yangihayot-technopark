@@ -28,6 +28,15 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
 .card-info{opacity:0;transform:translateY(10px);transition:all .3s}
 .lot-dot{cursor:pointer;transition:all .2s}
 .lot-dot:hover{transform:scale(1.3)}
+/* Lot polygon neon outlines */
+#lotPolySvg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.lot-poly{fill:transparent;stroke:transparent;stroke-width:2.5;vector-effect:non-scaling-stroke;pointer-events:all;cursor:pointer;transition:stroke .15s,filter .15s}
+.lot-poly:hover{stroke:#34d399;filter:drop-shadow(0 0 4px #34d399) drop-shadow(0 0 10px #10b981) drop-shadow(0 0 18px rgba(16,185,129,.6))}
+/* In edit mode all polygons are always visible */
+.edit-poly .lot-poly{stroke:rgba(52,211,153,.7);stroke-width:2}
+.edit-poly .lot-poly.active-edit{stroke:#f59e0b;stroke-width:3;fill:rgba(245,158,11,.12);filter:drop-shadow(0 0 6px #f59e0b)}
+.edit-poly .poly-point{fill:#fff;stroke:#f59e0b;stroke-width:2;cursor:grab}
+.edit-poly .poly-point:hover{fill:#f59e0b}
 </style>
 </head>
 <body class="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200">
@@ -184,6 +193,7 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
       <div class="relative">
         <div class="relative rounded-2xl overflow-hidden shadow-xl" id="mapWrap">
           <img src="./images/Lot_raqamlari.png" class="w-full block select-none" id="mapImg" onmousemove="handleMapHover(event)" onmouseleave="document.getElementById('mapTooltip').classList.add('hidden')" onclick="handleMapClick(event)" style="cursor:pointer" draggable="false">
+          <svg id="lotPolySvg" viewBox="0 0 1000 1000" preserveAspectRatio="none"></svg>
           <div id="lotOverlay" class="hidden absolute inset-0 pointer-events-none"></div>
           <div id="mapTooltip" class="hidden absolute z-30 bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-3 pointer-events-none transition-opacity duration-100" style="width:260px;">
             <img id="mti_img" src="" class="w-full h-28 object-cover rounded-lg mb-2 hidden">
@@ -445,7 +455,7 @@ function showPage(p){
   document.querySelectorAll('.nav-link').forEach(b=>{b.classList.toggle('text-emerald-600',b.dataset.page===p);b.classList.toggle('font-extrabold',b.dataset.page===p)});
   window.scrollTo({top:0,behavior:'smooth'});
   if(p==='home'){setTimeout(()=>{animateCount('cnt1',60,'','+');animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'\u0024','M');animateCount('cnt4',110)},400)}
-  if(p==='map')renderLotMarkers();
+  if(p==='map'){renderLotMarkers();renderPolygons();if(POLY_EDIT)showPolyPanel();}
   if(p==='directions'){filterSector('all');var dt=document.getElementById('dir_total');if(dt){var l=currentLang;var ta_w=l==='ru'?' предприятий':l==='en'?' companies':l==='zh'?'家企业':' ta korxona';dt.innerHTML='Jami: <strong>46</strong>'+ta_w;}}
 }
 
@@ -547,6 +557,191 @@ function closeCompanyModal(){
 
 const lotPositions={'2':[0.162,0.148],'3':[0.258,0.108],'5':[0.307,0.097],'6':[0.312,0.174],'7':[0.381,0.124],'8':[0.334,0.359],'9':[0.513,0.289],'10':[0.517,0.424],'11':[0.54,0.373],'12':[0.559,0.339],'13':[0.581,0.247],'14':[0.631,0.244],'15':[0.642,0.328],'16':[0.688,0.205],'24':[0.825,0.193],'28':[0.751,0.41],'29':[0.755,0.46],'30':[0.708,0.428],'31':[0.765,0.517],'32':[0.808,0.508],'33':[0.812,0.558],'34':[0.859,0.55],'37':[0.566,0.52],'38':[0.612,0.452],'39':[0.619,0.594],'42':[0.699,0.579],'43':[0.7,0.719],'45':[0.749,0.785],'47':[0.462,0.544],'49':[0.493,0.589],'51':[0.526,0.64],'52':[0.544,0.668],'53':[0.561,0.696],'54':[0.577,0.719],'56':[0.609,0.769],'57':[0.628,0.793],'60':[0.728,0.875],'1a':[0.075,0.147],'1b':[0.069,0.168]};
 
+// === LOT POLYGONS (perimeter outlines, neon on hover) ===
+let lotPolygons = {};
+let activePoly = null;       // currently editing lot id
+const POLY_EDIT = new URLSearchParams(location.search).get('edit')==='2';
+
+function renderPolygons(){
+  const svg=document.getElementById('lotPolySvg');
+  if(!svg) return;
+  // Hover/click on polygon → tooltip + click
+  let html='';
+  Object.entries(lotPolygons).forEach(([lot,pts])=>{
+    if(!pts||pts.length<3) return;
+    const ptsStr=pts.map(([x,y])=>(x*1000).toFixed(1)+','+(y*1000).toFixed(1)).join(' ');
+    const cls='lot-poly'+(lot===activePoly?' active-edit':'');
+    html+=`<polygon points="${ptsStr}" data-lot="${lot}" class="${cls}" onmouseenter="polyHover(event,'${lot}')" onmousemove="polyMove(event,'${lot}')" onmouseleave="polyLeave()" onclick="polyClick('${lot}',event)"></polygon>`;
+  });
+  // In edit mode also show the draggable vertex handles for active polygon
+  if(POLY_EDIT && activePoly && lotPolygons[activePoly]){
+    lotPolygons[activePoly].forEach(([x,y],i)=>{
+      html+=`<circle cx="${(x*1000).toFixed(1)}" cy="${(y*1000).toFixed(1)}" r="6" class="poly-point" data-i="${i}" onpointerdown="startPointDrag(event,${i})"></circle>`;
+    });
+  }
+  svg.innerHTML=html;
+  document.getElementById('mapWrap').classList.toggle('edit-poly', POLY_EDIT);
+}
+
+function polyHover(e,lot){
+  // Reuse existing hover tooltip with this lot
+  const ev={clientX:e.clientX,clientY:e.clientY,target:document.getElementById('mapImg')};
+  showLotTooltip(lot,ev);
+}
+function polyMove(e,lot){
+  // Update tooltip position while hovering inside polygon
+  const tip=document.getElementById('mapTooltip');
+  if(tip.classList.contains('hidden')) return;
+  positionTooltip(tip, e.clientX, e.clientY);
+}
+function polyLeave(){
+  document.getElementById('mapTooltip').classList.add('hidden');
+}
+function polyClick(lot,e){
+  e.stopPropagation();
+  if(POLY_EDIT){ activePoly=lot; renderPolygons(); updatePolyPanel(); return; }
+  showCompany(lot);
+}
+
+// === EDIT MODE 2 — draw polygons ===
+function addPolyPoint(e){
+  if(!POLY_EDIT||!activePoly) return;
+  const img=document.getElementById('mapImg');
+  const r=img.getBoundingClientRect();
+  const x=+((e.clientX-r.left)/r.width).toFixed(3);
+  const y=+((e.clientY-r.top)/r.height).toFixed(3);
+  if(!lotPolygons[activePoly]) lotPolygons[activePoly]=[];
+  lotPolygons[activePoly].push([x,y]);
+  renderPolygons(); updatePolyPanel();
+}
+function undoPolyPoint(){
+  if(!activePoly||!lotPolygons[activePoly]) return;
+  lotPolygons[activePoly].pop();
+  if(!lotPolygons[activePoly].length) delete lotPolygons[activePoly];
+  renderPolygons(); updatePolyPanel();
+}
+function clearActivePoly(){
+  if(!activePoly) return;
+  if(!confirm('Lot '+activePoly+' polygonini oʻchirasizmi?')) return;
+  delete lotPolygons[activePoly];
+  renderPolygons(); updatePolyPanel();
+}
+function startPointDrag(e,idx){
+  e.stopPropagation();
+  const img=document.getElementById('mapImg');
+  function move(ev){
+    const r=img.getBoundingClientRect();
+    let x=(ev.clientX-r.left)/r.width;
+    let y=(ev.clientY-r.top)/r.height;
+    x=Math.max(0,Math.min(1,x)); y=Math.max(0,Math.min(1,y));
+    lotPolygons[activePoly][idx]=[+x.toFixed(3),+y.toFixed(3)];
+    renderPolygons(); updatePolyPanel();
+  }
+  function up(){window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up)}
+  window.addEventListener('pointermove',move);
+  window.addEventListener('pointerup',up);
+}
+
+function showPolyPanel(){
+  if(document.getElementById('polyPanel')) return;
+  // Build lot list
+  const allLots=Object.keys(lotPositions);
+  // also include any lot id already in lotPolygons
+  Object.keys(lotPolygons).forEach(l=>{if(!allLots.includes(l))allLots.push(l)});
+  allLots.sort((a,b)=>(parseInt(a)||999)-(parseInt(b)||999));
+
+  const p=document.createElement('div');
+  p.id='polyPanel';
+  p.style.cssText='position:fixed;bottom:16px;right:16px;z-index:9999;background:#0f172a;color:#fff;padding:14px;border-radius:14px;width:360px;font-family:sans-serif;font-size:12px;box-shadow:0 10px 30px rgba(0,0,0,0.5);max-height:90vh;overflow:auto';
+  p.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <b style="font-size:14px">🔷 Polygon editor</b>
+      <button onclick="copyPolyJSON()" style="background:#10b981;color:#fff;border:0;padding:6px 12px;border-radius:8px;cursor:pointer;font-weight:bold">📋 Copy</button>
+    </div>
+    <div style="color:#94a3b8;margin-bottom:8px;line-height:1.4">
+      1. Lot tanlang ▼<br>2. Rasm ustida nuqtalarni bosing (kamida 3 ta)<br>3. Boshqa lotga oʻting<br>4. Tugagach Copy → menga yuboring
+    </div>
+    <label style="display:block;margin-bottom:6px;color:#94a3b8">Faol lot:</label>
+    <select id="polyLotSelect" onchange="activePoly=this.value;renderPolygons();updatePolyPanel()" style="width:100%;background:#1e293b;color:#fff;border:1px solid #334155;border-radius:6px;padding:6px;margin-bottom:8px">
+      <option value="">— tanlang —</option>
+      ${allLots.map(l=>`<option value="${l}">Lot ${l}</option>`).join('')}
+    </select>
+    <div style="display:flex;gap:6px;margin-bottom:10px">
+      <button onclick="undoPolyPoint()" style="flex:1;background:#334155;color:#fff;border:0;padding:6px;border-radius:6px;cursor:pointer">↶ Undo</button>
+      <button onclick="clearActivePoly()" style="flex:1;background:#7f1d1d;color:#fff;border:0;padding:6px;border-radius:6px;cursor:pointer">🗑 Clear</button>
+    </div>
+    <div id="polyStats" style="color:#34d399;margin-bottom:6px;font-family:monospace"></div>
+    <textarea id="polyJSON" readonly style="width:100%;height:140px;background:#1e293b;color:#a7f3d0;border:0;border-radius:6px;padding:6px;font-size:10px;font-family:monospace;resize:vertical"></textarea>`;
+  document.body.appendChild(p);
+}
+function updatePolyPanel(){
+  const sel=document.getElementById('polyLotSelect');
+  if(sel) sel.value=activePoly||'';
+  const stats=document.getElementById('polyStats');
+  if(stats){
+    const n=Object.keys(lotPolygons).filter(k=>lotPolygons[k]&&lotPolygons[k].length>=3).length;
+    const cur=activePoly && lotPolygons[activePoly] ? lotPolygons[activePoly].length : 0;
+    stats.textContent=`Joriy: ${cur} nuqta · Jami: ${n} ta polygon`;
+  }
+  const ta=document.getElementById('polyJSON');
+  if(ta){
+    const parts=Object.entries(lotPolygons).filter(([_,v])=>v&&v.length>=3).map(([k,v])=>`'${k}':[${v.map(p=>'['+p[0]+','+p[1]+']').join(',')}]`);
+    ta.value='const lotPolygons={'+parts.join(',')+'};';
+  }
+}
+function copyPolyJSON(){
+  const ta=document.getElementById('polyJSON');
+  ta.select(); document.execCommand('copy');
+  const btn=event.target; const o=btn.textContent;
+  btn.textContent='✓ Nusxalandi'; setTimeout(()=>btn.textContent=o,1500);
+}
+
+// Helpers reused by polygon hover (extracted from existing handleMapHover)
+function showLotTooltip(lot, e){
+  const tip=document.getElementById('mapTooltip');
+  const c=companies.find(x=>x.lot===lot);
+  if(!c){tip.classList.add('hidden');return;}
+  const t=i18n[currentLang]||{};
+  document.getElementById('mti_lot').textContent=(t.f_lot||'Lot')+' '+c.lot;
+  document.getElementById('mti_name').textContent=c.name;
+  const stEl=document.getElementById('mti_status');
+  stEl.textContent=stText(c.st);
+  stEl.className='text-[10px] px-2 py-0.5 rounded font-semibold '+stColor(c.st);
+  const rows=[
+    [t.f_sector||'Tarmoq', c.tarmoq],
+    [t.f_area||'Maydon', c.area+' ga'],
+    [t.f_jobs||'Ish oʻrni', c.jobs||'-'],
+    [t.f_act||'Faoliyat', c.act]
+  ];
+  document.getElementById('mti_body').innerHTML=rows.map(([k,v])=>`<div class="flex gap-1.5"><span class="text-slate-400 dark:text-slate-500 flex-shrink-0">${k}:</span><span class="font-medium truncate">${v}</span></div>`).join('');
+  const imgEl=document.getElementById('mti_img');
+  const lotKey=lot.replace('/','_').replace(' ','_');
+  const testSrc='./images/companies/lot_'+lotKey+'_1.png';
+  if(imgEl.dataset.lot!==lot){
+    imgEl.dataset.lot=lot;
+    imgEl.classList.add('hidden');
+    const probe=new Image();
+    probe.onload=()=>{if(imgEl.dataset.lot===lot){imgEl.src=testSrc;imgEl.classList.remove('hidden');}};
+    probe.onerror=()=>{};
+    probe.src=testSrc;
+  }
+  tip.classList.remove('hidden');
+  positionTooltip(tip,e.clientX,e.clientY);
+}
+function positionTooltip(tip, clientX, clientY){
+  const wrap=tip.parentElement;
+  const wrapRect=wrap.getBoundingClientRect();
+  const tipW=tip.offsetWidth, tipH=tip.offsetHeight;
+  let left=clientX-wrapRect.left+16;
+  let top =clientY-wrapRect.top +16;
+  if(left+tipW>wrapRect.width-8)  left=clientX-wrapRect.left-tipW-16;
+  if(top +tipH>wrapRect.height-8) top =clientY-wrapRect.top -tipH-16;
+  if(left<8) left=8;
+  if(top<8)  top=8;
+  tip.style.left=left+'px';
+  tip.style.top =top +'px';
+}
+
 // === LOT CALIBRATION MODE (?edit=1) ===
 const EDIT_MODE = new URLSearchParams(location.search).get('edit')==='1';
 function renderLotMarkers(){
@@ -627,6 +822,7 @@ function findNearestLot(e){
 }
 
 function handleMapClick(e){
+  if(POLY_EDIT && activePoly){ addPolyPoint(e); return; }
   const lot=findNearestLot(e);
   if(lot)showCompany(lot);
 }
