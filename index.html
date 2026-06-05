@@ -171,13 +171,15 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
     <div>
       <div class="relative">
         <div class="relative rounded-2xl overflow-hidden shadow-xl">
-          <img src="./images/Lot_raqamlari.png" class="w-full" id="mapImg" onmousemove="handleMapHover(event)" onmouseleave="document.getElementById('mapTooltip').classList.add('hidden')" onclick="handleMapClick(event)" style="cursor:pointer">
-          <div id="mapTooltip" class="hidden absolute z-30 bg-white/95 dark:bg-slate-800/95 backdrop-blur rounded-xl shadow-2xl p-3 pointer-events-none transition-all duration-150" style="width:260px;"><img id="mti_img" src="" class="w-full h-28 object-cover rounded-lg mb-2 hidden"><h4 id="mti_name" class="font-bold text-sm text-emerald-700 dark:text-emerald-400 mb-1"></h4><div id="mti_body" class="space-y-1 text-xs"></div></div>
-          <div id="mapTooltip" class="hidden absolute z-30 bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-3 pointer-events-none" style="width:280px;transform:translate(-50%,-110%);">
+          <img src="./images/Lot_raqamlari.png" class="w-full block" id="mapImg" onmousemove="handleMapHover(event)" onmouseleave="document.getElementById('mapTooltip').classList.add('hidden')" onclick="handleMapClick(event)" style="cursor:pointer">
+          <div id="mapTooltip" class="hidden absolute z-30 bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-3 pointer-events-none transition-opacity duration-100" style="width:260px;">
             <img id="mti_img" src="" class="w-full h-28 object-cover rounded-lg mb-2 hidden">
-            <h4 id="mti_name" class="font-bold text-sm text-emerald-700 dark:text-emerald-400 mb-1"></h4>
-            <div id="mti_body" class="space-y-1 text-xs"></div>
-            <div class="absolute left-1/2 -translate-x-1/2 -bottom-2 w-4 h-4 bg-white dark:bg-slate-800 rotate-45 shadow"></div>
+            <div class="flex items-center gap-2 mb-1">
+              <span id="mti_lot" class="text-[10px] bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300 px-2 py-0.5 rounded font-bold"></span>
+              <span id="mti_status" class="text-[10px] px-2 py-0.5 rounded font-semibold"></span>
+            </div>
+            <h4 id="mti_name" class="font-bold text-sm text-emerald-700 dark:text-emerald-400 mb-1 leading-tight"></h4>
+            <div id="mti_body" class="space-y-1 text-xs text-slate-600 dark:text-slate-300"></div>
           </div>
         </div>
         <div class="mt-4 grid grid-cols-2 gap-3">
@@ -498,17 +500,72 @@ function closeCompanyModal(){
 const lotPositions={'2':[0.43,0.14],'3':[0.27,0.14],'5':[0.35,0.10],'6':[0.20,0.15],'7':[0.42,0.07],'8':[0.32,0.35],'9':[0.56,0.27],'10':[0.54,0.40],'11':[0.55,0.37],'12':[0.57,0.33],'13':[0.61,0.24],'14':[0.66,0.23],'15':[0.62,0.32],'16':[0.70,0.20],'24':[0.86,0.17],'28':[0.79,0.32],'29':[0.81,0.37],'30':[0.68,0.31],'31':[0.74,0.39],'32':[0.85,0.38],'33':[0.81,0.42],'34':[0.87,0.42],'37':[0.60,0.43],'38':[0.64,0.39],'39':[0.68,0.47],'42':[0.74,0.46],'43':[0.70,0.52],'45':[0.76,0.56],'47':[0.52,0.47],'49':[0.55,0.51],'51':[0.57,0.55],'52':[0.57,0.57],'53':[0.59,0.58],'54':[0.60,0.61],'56':[0.62,0.65],'57':[0.63,0.68],'60':[0.76,0.72],'1a':[0.08,0.18],'1b':[0.08,0.20]};
 function renderLotMarkers(){}
 
-function handleMapClick(e){
-  const rect=e.target.getBoundingClientRect();
+function findNearestLot(e){
+  const img=document.getElementById('mapImg');
+  const rect=img.getBoundingClientRect();
   const x=(e.clientX-rect.left)/rect.width;
   const y=(e.clientY-rect.top)/rect.height;
-  // Approximate lot positions (normalized 0-1 coordinates)
-  let closest=null,minDist=0.05;
+  let closest=null,minDist=0.04;
   for(const[lot,[lx,ly]] of Object.entries(lotPositions)){
     const d=Math.sqrt((x-lx)**2+(y-ly)**2);
     if(d<minDist){minDist=d;closest=lot;}
   }
-  if(closest)selectLot(closest);
+  return closest;
+}
+
+function handleMapClick(e){
+  const lot=findNearestLot(e);
+  if(lot)showCompany(lot);
+}
+
+function handleMapHover(e){
+  const tip=document.getElementById('mapTooltip');
+  const lot=findNearestLot(e);
+  if(!lot){tip.classList.add('hidden');return;}
+  const c=companies.find(x=>x.lot===lot);
+  if(!c){tip.classList.add('hidden');return;}
+  const t=i18n[currentLang]||{};
+
+  // Fill tooltip
+  document.getElementById('mti_lot').textContent=(t.f_lot||'Lot')+' '+c.lot;
+  document.getElementById('mti_name').textContent=c.name;
+  const stEl=document.getElementById('mti_status');
+  stEl.textContent=stText(c.st);
+  stEl.className='text-[10px] px-2 py-0.5 rounded font-semibold '+stColor(c.st);
+  const rows=[
+    [t.f_sector||'Tarmoq', c.tarmoq],
+    [t.f_area||'Maydon', c.area+' ga'],
+    [t.f_jobs||'Ish oʻrni', c.jobs||'-'],
+    [t.f_act||'Faoliyat', c.act]
+  ];
+  document.getElementById('mti_body').innerHTML=rows.map(([k,v])=>`<div class="flex gap-1.5"><span class="text-slate-400 dark:text-slate-500 flex-shrink-0">${k}:</span><span class="font-medium truncate">${v}</span></div>`).join('');
+
+  // Try company image
+  const imgEl=document.getElementById('mti_img');
+  const lotKey=lot.replace('/','_').replace(' ','_');
+  const testSrc='./images/companies/lot_'+lotKey+'_1.png';
+  if(imgEl.dataset.lot!==lot){
+    imgEl.dataset.lot=lot;
+    imgEl.classList.add('hidden');
+    const probe=new Image();
+    probe.onload=()=>{if(imgEl.dataset.lot===lot){imgEl.src=testSrc;imgEl.classList.remove('hidden');}};
+    probe.onerror=()=>{};
+    probe.src=testSrc;
+  }
+
+  // Position tooltip near cursor, clamped inside the map container
+  const wrap=tip.parentElement; // .relative wrapping the img + tooltip
+  const wrapRect=wrap.getBoundingClientRect();
+  tip.classList.remove('hidden');
+  const tipW=tip.offsetWidth, tipH=tip.offsetHeight;
+  let left=e.clientX-wrapRect.left+16;
+  let top =e.clientY-wrapRect.top +16;
+  if(left+tipW>wrapRect.width-8)  left=e.clientX-wrapRect.left-tipW-16;
+  if(top +tipH>wrapRect.height-8) top =e.clientY-wrapRect.top -tipH-16;
+  if(left<8) left=8;
+  if(top<8)  top=8;
+  tip.style.left=left+'px';
+  tip.style.top =top +'px';
 }
 
 function searchCompanies(q){
