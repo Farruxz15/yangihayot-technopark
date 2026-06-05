@@ -6,6 +6,9 @@
 <title>Yangihayot Texnopark</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>tailwind.config={darkMode:'class'}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
   if(window.pdfjsLib){
@@ -14,6 +17,9 @@
 </script>
 <style>
 body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,color .3s}
+.font-brand{font-family:'Sora',sans-serif;letter-spacing:-0.04em}
+.hero-wordmark{font-family:'Sora',sans-serif;font-weight:800;letter-spacing:-0.05em;line-height:0.9;text-transform:lowercase}
+.hero-subwordmark{font-family:'Sora',sans-serif;font-weight:400;letter-spacing:0.02em;text-transform:lowercase}
 .fade{animation:fadeIn .5s}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .lang-menu{display:none}.lang-menu.open{display:block}
@@ -83,8 +89,8 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
     </video>
     <div class="absolute inset-0 bg-gradient-to-b from-emerald-900/40 via-transparent to-emerald-900/80"></div>
     <div class="relative z-10 text-center px-4">
-      <h1 class="text-6xl md:text-8xl font-black text-white mb-2 drop-shadow-2xl tracking-tight">Yangihayot</h1>
-      <p class="text-lg md:text-2xl text-emerald-200 font-medium tracking-widest uppercase mb-4">industrial texnopark</p>
+      <h1 class="hero-wordmark text-6xl md:text-8xl lg:text-9xl text-white mb-1 drop-shadow-2xl">yangihayot</h1>
+      <p class="hero-subwordmark text-xl md:text-3xl text-emerald-100 mb-4">texnopark</p>
       <div class="h-8 flex items-center justify-center">
         <p id="typingText" class="text-base md:text-xl text-emerald-300 border-r-2 border-emerald-300 pr-1"></p>
       </div>
@@ -95,7 +101,7 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
     <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
       <div><div class="text-4xl md:text-5xl font-bold mb-2" id="cnt1">0</div><div class="text-emerald-100 text-sm" data-i18n="s_lots">Lotlar</div></div>
       <div><div class="text-4xl md:text-5xl font-bold mb-2" id="cnt2">0</div><div class="text-emerald-100 text-sm" data-i18n="s_workers">Ishchilar</div></div>
-      <div><div class="text-4xl md:text-5xl font-bold mb-2" id="cnt3">/bin/sh</div><div class="text-emerald-100 text-sm" data-i18n="s_export">Eksport</div></div>
+      <div><div class="text-4xl md:text-5xl font-bold mb-2" id="cnt3">0</div><div class="text-emerald-100 text-sm" data-i18n="s_export">Eksport</div></div>
       <div><div class="text-4xl md:text-5xl font-bold mb-2" id="cnt4">0</div><div class="text-emerald-100 text-sm" data-i18n="s_hectares">Gektar</div></div>
     </div>
   </section>
