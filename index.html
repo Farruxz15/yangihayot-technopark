@@ -227,12 +227,12 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
     <h1 class="text-4xl font-bold mb-8" data-i18n="m_about">Biz haqimizda</h1>
 
     <!-- PREZIDENT KARUSEL -->
-    <div class="relative rounded-2xl overflow-hidden shadow-xl mb-8" style="height:360px">
-      <div id="prezCarousel" class="flex transition-transform duration-700 ease-in-out h-full">
-        <img src="./images/prez1.jpg" class="w-full h-full object-cover flex-shrink-0 cursor-pointer" onclick="openModal('./images/prez1.jpg')">
-        <img src="./images/prez2.jpg" class="w-full h-full object-cover flex-shrink-0 cursor-pointer" onclick="openModal('./images/prez2.jpg')">
-        <img src="./images/prez3.jpg" class="w-full h-full object-cover flex-shrink-0 cursor-pointer" onclick="openModal('./images/prez3.jpg')">
-        <img src="./images/prez4.jpg" class="w-full h-full object-cover flex-shrink-0 cursor-pointer" onclick="openModal('./images/prez4.jpg')">
+    <div class="relative rounded-2xl overflow-hidden shadow-xl mb-8">
+      <div id="prezCarousel" class="flex transition-transform duration-700 ease-in-out">
+        <img src="./images/prez1.jpg" class="w-full object-contain flex-shrink-0 cursor-pointer" onclick="openModal('./images/prez1.jpg')">
+        <img src="./images/prez2.jpg" class="w-full object-contain flex-shrink-0 cursor-pointer" onclick="openModal('./images/prez2.jpg')">
+        <img src="./images/prez3.jpg" class="w-full object-contain flex-shrink-0 cursor-pointer" onclick="openModal('./images/prez3.jpg')">
+        <img src="./images/prez4.jpg" class="w-full object-contain flex-shrink-0 cursor-pointer" onclick="openModal('./images/prez4.jpg')">
       </div>
       <div class="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
         <span class="prezDot w-2.5 h-2.5 rounded-full bg-white/90 cursor-pointer" onclick="goSlide(0)"></span>
