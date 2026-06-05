@@ -424,7 +424,7 @@ function setLang(l){
   if(hp && !hp.classList.contains('hidden')){
     var suf2=l==='uz'?' ming+':l==='ru'?' тысяч+':l==='zh'?' 千+':' thousand+';
     var suf4=l==='uz'?' ga':l==='ru'?' га':l==='zh'?' 公顿':' ha';
-    setTimeout(function(){animateCount('cnt1',60,'','+');animateCount('cnt2',3,'',suf2);animateCount('cnt3',2.6,'$','M');animateCount('cnt4',110,'',suf4);},100);
+    setTimeout(function(){animateCount('cnt1',60,'','+');animateCount('cnt2',3,'',suf2);animateCount('cnt3',2.6,'$','M');animateCount('cnt4',110);},100);
   }
 }
 function toggleLang(){document.getElementById('langMenu').classList.toggle('open')}
@@ -438,7 +438,7 @@ function showPage(p){
   if(pg){pg.classList.remove('hidden');pg.classList.add('fade');setTimeout(()=>pg.classList.remove('fade'),500)}
   document.querySelectorAll('.nav-link').forEach(b=>{b.classList.toggle('text-emerald-600',b.dataset.page===p);b.classList.toggle('font-extrabold',b.dataset.page===p)});
   window.scrollTo({top:0,behavior:'smooth'});
-  if(p==='home'){setTimeout(()=>{animateCount('cnt1',60,'','+');animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'\u0024','M');animateCount('cnt4',110,'',' ga')},400)}
+  if(p==='home'){setTimeout(()=>{animateCount('cnt1',60,'','+');animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'\u0024','M');animateCount('cnt4',110)},400)}
   if(p==='map')renderLotMarkers();
   if(p==='directions'){filterSector('all');var dt=document.getElementById('dir_total');if(dt){var l=currentLang;var ta_w=l==='ru'?' предприятий':l==='en'?' companies':l==='zh'?'家企业':' ta korxona';dt.innerHTML='Jami: <strong>46</strong>'+ta_w;}}
 }
@@ -800,7 +800,7 @@ document.addEventListener('keydown',e=>{
 if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');
 setLang(localStorage.getItem('lang')||'uz');
 setTimeout(typeEffect,800);
-setTimeout(()=>{animateCount('cnt1',60,'','+');animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'\u0024','M');animateCount('cnt4',110,'',' ga')},1000);
+setTimeout(()=>{animateCount('cnt1',60,'','+');animateCount("cnt2",3,"",(currentLang==="uz"?" ming+":currentLang==="ru"?" тысяч+":currentLang==="zh"?" 千+":" thousand+"));animateCount('cnt3',2.6,'\u0024','M');animateCount('cnt4',110)},1000);
 document.addEventListener('click',e=>{
   if(!e.target.closest('[onclick*="toggleLang"]')&&!e.target.closest('#langMenu'))document.getElementById('langMenu').classList.remove('open');
   if(!e.target.closest('#searchBar'))document.getElementById('searchResults').classList.add('hidden');
