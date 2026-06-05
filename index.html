@@ -223,17 +223,173 @@ body{font-family:-apple-system,system-ui,sans-serif;transition:background .3s,co
 
 <!-- ABOUT -->
 <div id="page-about" class="page hidden">
-  <section class="max-w-4xl mx-auto px-4 py-12">
+  <section class="max-w-5xl mx-auto px-4 py-12">
     <h1 class="text-4xl font-bold mb-8" data-i18n="m_about">Biz haqimizda</h1>
     <div class="grid md:grid-cols-2 gap-6 mb-10">
       <div class="relative rounded-2xl overflow-hidden shadow-xl cursor-pointer" onclick="openModal('./images/Before.jpg')"><img src="./images/Before.jpg" class="w-full h-56 object-cover hover:scale-105 transition-transform duration-500"><div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 p-3"><p class="text-white font-bold" data-i18n="before">Oldin</p></div></div>
       <div class="relative rounded-2xl overflow-hidden shadow-xl cursor-pointer" onclick="openModal('./images/Now.jpg')"><img src="./images/Now.jpg" class="w-full h-56 object-cover hover:scale-105 transition-transform duration-500"><div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 p-3"><p class="text-white font-bold" data-i18n="now">Hozir</p></div></div>
     </div>
-    <p class="text-lg leading-relaxed mb-6" data-i18n="about_p1">Yangihayot industrial texnoparki — Toshkent shahridagi yetakchi sanoat klasteri.</p>
-    <h2 class="text-2xl font-bold mt-8 mb-4" data-i18n="about_history">Tarix</h2>
-    <p class="leading-relaxed mb-6" data-i18n="about_p2">Texnopark Oʻzbekiston Respublikasi Prezidentining qarori bilan tashkil etilgan.</p>
-    <h2 class="text-2xl font-bold mt-8 mb-4" data-i18n="about_decisions">Prezident qarorlari</h2>
-    <p class="leading-relaxed" data-i18n="about_p3">Texnopark faoliyati prezident qarorlari asosida tartibga solinadi.</p>
+
+    <div class="bg-emerald-50 dark:bg-emerald-900/30 border-l-4 border-emerald-500 rounded-r-xl p-5 mb-10">
+      <p class="text-sm leading-relaxed text-slate-700 dark:text-slate-300">Oʻzbekiston Respublikasi Prezidentining 2021 yil 4 fevraldagi <strong>PQ-4979-sonli</strong> "Toshkent shahrida "Yangihayot" industrial texnoparkini tashkil etish chora-tadbirlari toʻgʻrisida"gi qarori hamda Vazirlar Mahkamasining 2024 yil 10 maydagi <strong>290-F-sonli</strong> farmoyishiga asosan hududda ichki muhandislik kommunikatsiya tarmoqlarini qurish boʻyicha qurilish-pudrat tashkilotlari aniqlangan.</p>
+    </div>
+
+    <h2 class="text-2xl font-bold mb-6">Muhandislik-kommunikatsiya ishlari</h2>
+
+    <!-- NEFTGAZMONTAJ -->
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 mb-6 border border-slate-200 dark:border-slate-700">
+      <div class="flex items-center gap-4 mb-4">
+        <div id="logo_neftgaz" class="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">N</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-lg">"NEFTGAZMONTAJ" MChJ</h3>
+          <p class="text-xs text-slate-500">Shartnoma: 06-06/24 · 10.06.2024</p>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300">Yakunlangan</span>
+      </div>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Umumiy qiymati: <strong class="text-slate-800 dark:text-white">2 mlrd 88 mln soʻm</strong></p>
+      <div class="space-y-2">
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Gaz quvurlari oʻrnatish</span><span class="font-semibold text-emerald-600">6.9 / 6.9 km</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:100%"></div></div>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mt-3">Ishlar toʻliq bajarildi. Foydalanishga topshirish hujjatlari rasmiylashtirilmoqda.</p>
+    </div>
+
+    <!-- SMNU — 1 -->
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 mb-6 border border-slate-200 dark:border-slate-700">
+      <div class="flex items-center gap-4 mb-4">
+        <div id="logo_smnu" class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">S</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-lg">"SMNU" MChJ</h3>
+          <p class="text-xs text-slate-500">Shartnoma: 05/24 · 07.06.2024</p>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">Davom etmoqda</span>
+      </div>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Umumiy qiymati: <strong class="text-slate-800 dark:text-white">15 mlrd 319 mln soʻm</strong></p>
+      <div class="space-y-2">
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">10 kV RP tarmoqlari</span><span class="font-semibold text-emerald-600">53.1 / 53.1 km</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:100%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Elektr tarmoqlari yotqizish va 6/10 kV kabellarni koʻchirish</span><span class="font-semibold text-emerald-600">5.5 / 5.5 km</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:100%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Elektr kabellari uchun kanalizatsiya</span><span class="font-semibold text-emerald-600">21 376 / 21 376 m</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:100%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Aloqa uchun kanalizatsiya</span><span class="font-semibold text-emerald-600">11 602 / 11 602 m</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:100%"></div></div>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mt-3">Qurilish-montaj ishlari davom etmoqda.</p>
+    </div>
+
+    <!-- SMNU — 2 -->
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 mb-6 border border-slate-200 dark:border-slate-700">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">S</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-lg">"SMNU" MChJ</h3>
+          <p class="text-xs text-slate-500">Shartnoma: 16/24 · 29.11.2024</p>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300">Hujjatlashtirish</span>
+      </div>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Umumiy qiymati: <strong class="text-slate-800 dark:text-white">19 mlrd 316 mln soʻm</strong></p>
+      <div class="space-y-2">
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">RP-10 kV elektr taqsimlash shaxobchalari</span><span class="font-semibold text-emerald-600">4 / 4 ta</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:100%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">CL-10 kV kabellarni yotqizish</span><span class="font-semibold text-blue-600">Jarayonda</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-blue-500 h-2 rounded-full" style="width:80%"></div></div>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mt-3">4 ta RP qurib bitkazildi. Foydalanishga topshirish hujjatlari bajarilmoqda.</p>
+    </div>
+
+    <!-- NURAFSHON QURILISH LYUKS -->
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 mb-6 border border-slate-200 dark:border-slate-700">
+      <div class="flex items-center gap-4 mb-4">
+        <div id="logo_nurafshon" class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">N</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-lg">"NURAFSHON QURILISH LYUKS" MChJ</h3>
+          <p class="text-xs text-slate-500">Shartnoma: 1/03-06 · 03.06.2024</p>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">Davom etmoqda</span>
+      </div>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Umumiy qiymati: <strong class="text-slate-800 dark:text-white">43 mlrd 453 mln soʻm</strong></p>
+      <div class="space-y-2">
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Ichimlik suvi tarmoqlari</span><span class="font-semibold text-emerald-600">8 430 / 10 410 m</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:81%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Yomgʻir suvlarini qochirish</span><span class="font-semibold text-emerald-600">7 685 / 9 381 m</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:82%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Sugʻorish tizimi</span><span class="font-semibold text-emerald-600">6 130 / 6 130 m</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:100%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Oqova suv tarmogʻi</span><span class="font-semibold text-emerald-600">7 220 / 7 866 m</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:92%"></div></div>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mt-3">Qurilish-montaj ishlari davom etmoqda.</p>
+    </div>
+
+    <!-- CAPITAL ROAD CONSTRUCTION -->
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 mb-6 border border-slate-200 dark:border-slate-700">
+      <div class="flex items-center gap-4 mb-4">
+        <div id="logo_capital" class="w-14 h-14 rounded-xl bg-gradient-to-br from-slate-500 to-slate-700 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">C</div>
+        <div class="flex-1">
+          <h3 class="font-bold text-lg">"CAPITAL ROAD CONSTRUCTION" QK MChJ</h3>
+          <p class="text-xs text-slate-500">Shartnoma: 3-son · 06.06.2024</p>
+        </div>
+        <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">Davom etmoqda</span>
+      </div>
+      <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Umumiy qiymati: <strong class="text-slate-800 dark:text-white">88 mlrd 998 mln soʻm</strong></p>
+      <div class="space-y-2">
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Yoʻl infratuzilmasi (asfalt)</span><span class="font-semibold text-emerald-600">4.2 / 12.6 km</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:33%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Yer ishlari</span><span class="font-semibold text-emerald-600">10.3 km</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:82%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Qum-shagʻal qoplamasi</span><span class="font-semibold text-emerald-600">5.7 km</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:45%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Beton ariq (lotok)</span><span class="font-semibold text-emerald-600">25 155 / 25 155 m</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:100%"></div></div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs mb-1"><span class="text-slate-500">Piyodalar yoʻlakchasi bordyuri</span><span class="font-semibold text-emerald-600">40 101 / 40 101 m</span></div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full" style="width:100%"></div></div>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500 mt-3">Yoʻl qurilish ishlari davom etmoqda.</p>
+    </div>
+
+    <!-- UMUMIY STATISTIKA -->
+    <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 dark:from-emerald-800 dark:to-emerald-900 rounded-2xl p-6 text-white">
+      <h3 class="font-bold text-lg mb-4">Umumiy investitsiya</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+        <div><div class="text-2xl md:text-3xl font-bold">169.2</div><div class="text-emerald-200 text-xs">mlrd soʻm</div></div>
+        <div><div class="text-2xl md:text-3xl font-bold">5</div><div class="text-emerald-200 text-xs">Pudratchi</div></div>
+        <div><div class="text-2xl md:text-3xl font-bold">6</div><div class="text-emerald-200 text-xs">Shartnoma</div></div>
+        <div><div class="text-2xl md:text-3xl font-bold">12.6</div><div class="text-emerald-200 text-xs">km yoʻl</div></div>
+      </div>
+    </div>
   </section>
 </div>
 
