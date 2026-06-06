@@ -1364,16 +1364,16 @@ async function loadTelegramPosts() {
     if (data.status !== 'ok' || !data.items?.length) throw new Error('no posts');
     tgPostsLoaded = true;
     container.innerHTML = data.items.map(item => {
-      const d = new Date(item.pubDate);
-      const date = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-      const text = item.description.replace(/<[^>]*>/g, '').trim().substring(0, 180);
-      const img = item.enclosure?.link || (item.description.match(/<img[^>]+src="([^"]+)"/) || [])[1];
+      const text = item.description.replace(/<[^>]*>/g, '').trim().substring(0, 200);
+      const enc = item.enclosure;
+      const img = (enc?.type?.startsWith('image') ? enc.link : null)
+        || (item.description.match(/src="(https?:\/\/[^"]+thumb[^"]*)"/) || [])[1]
+        || (item.description.match(/src="(https?:\/\/[^"]+\.jpe?g[^"]*)"/) || [])[1];
       return `<a href="${item.link}" target="_blank" rel="noopener"
         class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all overflow-hidden group flex flex-col">
-        ${img ? `<img src="${img}" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">` : ''}
+        ${img ? `<img src="${img}" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">` : ''}
         <div class="p-4 flex flex-col flex-1">
-          <span class="text-xs text-blue-600 dark:text-blue-400 font-semibold">${date}</span>
-          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300 leading-relaxed flex-1">${text}${text.length >= 180 ? '…' : ''}</p>
+          <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed flex-1">${text}${text.length >= 200 ? '…' : ''}</p>
           <span class="mt-3 inline-flex items-center gap-1 text-blue-500 text-xs font-semibold">Telegram →</span>
         </div>
       </a>`;
