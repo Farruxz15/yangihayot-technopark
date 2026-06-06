@@ -1366,9 +1366,9 @@ async function loadTelegramPosts() {
     container.innerHTML = data.items.map(item => {
       const text = item.description.replace(/<[^>]*>/g, '').trim().substring(0, 200);
       const enc = item.enclosure;
-      const img = (enc?.type?.startsWith('image') ? enc.link : null)
-        || (item.description.match(/src="(https?:\/\/[^"]+thumb[^"]*)"/) || [])[1]
+      const rawImg = (enc?.type?.startsWith('image') ? enc.link : null)
         || (item.description.match(/src="(https?:\/\/[^"]+\.jpe?g[^"]*)"/) || [])[1];
+      const img = rawImg ? 'https://wsrv.nl/?url=' + rawImg.replace(/^https?:\/\//, '') : null;
       return `<a href="${item.link}" target="_blank" rel="noopener"
         class="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all overflow-hidden group flex flex-col">
         ${img ? `<img src="${img}" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.style.display='none'">` : ''}
